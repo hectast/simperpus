@@ -1,0 +1,22 @@
+RewriteEngine On
+RewriteBase /simperpus/
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule ^index$ index.php
+RewriteRule ^admin$ admin.php
+
+RewriteRule ^beranda_admin$ admin.php?views_admin=beranda_admin
+RewriteRule ^blank_page$ admin.php?views_admin=blank_page
+
+# X-XSS-Protection
+<IfModule mod_headers.c>
+	Header set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# Protect database config file
+<Files env.php>
+    deny from all
+</Files>
+Options All -Indexes
