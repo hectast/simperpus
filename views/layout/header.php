@@ -13,6 +13,8 @@
     <title>SIMPERPUS - <?= $title ?></title>
     <!-- Custom CSS -->
     <link href="public/assets/libs/flot/css/float-chart.css" rel="stylesheet">
+    <link href="public/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
+    <link rel="stylesheet" href="public/dist/css/icons/font-awesome/css/fontawesome.css">
     <!-- Custom CSS -->
     <link href="public/dist/css/style.min.css" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -24,6 +26,31 @@
 </head>
 
 <body>
+<?php
+function tgl_indo($tanggal){
+	$bulan = array (
+		1 =>   'Januari',
+		'Februari',
+		'Maret',
+		'April',
+		'Mei',
+		'Juni',
+		'Juli',
+		'Agustus',
+		'September',
+		'Oktober',
+		'November',
+		'Desember'
+	);
+	$pecahkan = explode('-', $tanggal);
+	
+	// variabel pecahkan 0 = tanggal
+	// variabel pecahkan 1 = bulan
+	// variabel pecahkan 2 = tahun
+ 
+	return $pecahkan[2] . ' ' . $bulan[ (int)$pecahkan[1] ] . ' ' . $pecahkan[0];
+}
+?>
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->

@@ -7,11 +7,11 @@
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="beranda_admin" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Dashboard</span></a></li>
                         <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-receipt"></i><span class="hide-menu">Master Data </span></a>
                             <ul aria-expanded="false" class="collapse  first-level">
-                                <li class="sidebar-item"><a href="data_anggota" class="sidebar-link"><i class="fas fa-user"></i><span class="hide-menu"> Data Anggota </span></a></li>
+                                <li class="sidebar-item"><a href="data_anggota" class="sidebar-link"><i class="fas fa-users"></i><span class="hide-menu"> Data Anggota </span></a></li>
                                 <li class="sidebar-item"><a href="data_buku" class="sidebar-link"><i class="fas fa-book"></i><span class="hide-menu"> Data Buku </span></a></li>
+                                <li class="sidebar-item"><a href="data_kelas" class="sidebar-link"><i class="fas fa-clipboard"></i><span class="hide-menu"> Kelas </span></a></li>                                
                             </ul>
                         </li>
-                       
                     </ul>
                 </nav>
                 <!-- End Sidebar navigation -->
