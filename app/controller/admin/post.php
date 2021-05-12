@@ -90,7 +90,7 @@ if(isset($_POST['hapus_buku'])){
     }
 }
 if (isset($_POST['edit_buku'])) {
-    $nomor_jenis_buku = $_POST['nomor_jenis_buku'];
+    // $nomor_jenis_buku = $_POST['nomor_jenis_buku'];
     $token_edit = $_POST['token_edit'];
     $id_buku = $_POST['id_buku'];
     $kode_isbn = $_POST['kode_isbn'];
@@ -99,13 +99,14 @@ if (isset($_POST['edit_buku'])) {
     $penerbit = $_POST['penerbit'];
     $tahun_terbit = $_POST['tahun_terbit'];
     $kategori_buku = $_POST['kategori_buku'];
-    $jenis_buku = $_POST['jenis_buku'.$nomor_jenis_buku];
+    // $jenis_buku = $_POST['jenis_buku'.$nomor_jenis_buku];
+    $jenis_buku = $_POST['jenis_buku'];
     $jumlah_buku = $_POST['jumlah_buku'];
     $lokasi_buku = $_POST['lokasi_buku'];
     $tkn = 'hectast2k21';
     $token = md5("$tkn:$id_buku");
 
-    var_dump($jenis_buku);
+    // var_dump($jenis_buku);
 
     // if ($token_edit === $token) {
     //     edit_buku($id_buku, $kode_isbn, $judul_buku, $pengarang, $penerbit, $tahun_terbit, $kategori_buku, $jenis_buku, $jumlah_buku, $lokasi_buku, $mysqli);
