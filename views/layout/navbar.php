@@ -22,7 +22,8 @@
                          <!-- Logo text -->
                         <span class="logo-text">
                              <!-- dark Logo text -->
-                             <img src="public/assets/images/logo-text.png" alt="homepage" class="light-logo" />
+                             <!-- <img src="public/assets/images/logo-text.png" alt="homepage" class="light-logo" /> -->
+                             <h4 class="light-logo mt-2">SIMPERPUS</h4>
                             
                         </span>
                         <!-- Logo icon -->

@@ -1,5 +1,5 @@
 <footer class="footer text-center">
-    All Rights Reserved by Matrix-admin. Designed and Developed by <a href="https://wrappixel.com">WrapPixel</a>.
+    All Rights Reserved by Hectast. Designed and Developed by <a href="https://wrappixel.com">WrapPixel</a>.
 </footer>
 <!-- ============================================================== -->
 <!-- End footer -->
@@ -39,6 +39,7 @@
 <script src="public/assets/libs/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
 <script src="public/dist/js/pages/chart/chart-page-init.js"></script>
 <script src="public/assets/extra-libs/DataTables/datatables.min.js"></script>
+<script src="public/dist/js/yearpicker.js"></script>
 <script>
     /****************************************
      *       Basic Table                   *
@@ -54,6 +55,36 @@
                 $(this).remove();
             });
         }, 2000);
+    });
+
+    // Year Picker
+    let currentYear = new Date().getFullYear();
+    $('.yearpicker').yearpicker({
+        endYear: currentYear
+    });
+
+    // Kategori Buku
+    $('#optionBuku').change(function() {
+        $('#kategKlasifikasi').remove();
+        if ($('#optionBuku').val() == '1') {
+            $.get('views/pages/admin/kategori_klasifikasi.php', {
+                optionBuku: $('#optionBuku').val()
+            })
+            .done(function(data) {
+                $('#formBuku').after(data);
+            })
+        }
+    });
+    $('#optionBuku').change(function() {
+        $('#kategKhusus').remove();
+        if ($('#optionBuku').val() == '0') {
+            $.get('views/pages/admin/kategori_khusus.php', {
+                optionBuku: $('#optionBuku').val()
+            })
+            .done(function(data) {
+                $('#formBuku').after(data);
+            })
+        }
     });
 </script>
 
