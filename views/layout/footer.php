@@ -1,9 +1,5 @@
 <footer class="footer text-center">
-<<<<<<< HEAD
-    All Rights Reserved by Hectast. Designed and Developed by <a href="https://wrappixel.com">WrapPixel</a>.
-=======
-    All Rights Reserved by Matrix-admin. Designed and Developed by <a href="https://wrappixel.com">WrapPixel</a>.
->>>>>>> 9b91d537fabe95684fabb1fa0d5c0f5a25c59b9c
+    All Rights Reserved by Hectast. Developed by <a href="https://github.com/hectast" target="_BLANK">Hectast</a>.
 </footer>
 <!-- ============================================================== -->
 <!-- End footer -->
@@ -43,10 +39,7 @@
 <script src="public/assets/libs/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
 <script src="public/dist/js/pages/chart/chart-page-init.js"></script>
 <script src="public/assets/extra-libs/DataTables/datatables.min.js"></script>
-<<<<<<< HEAD
 <script src="public/dist/js/yearpicker.js"></script>
-=======
->>>>>>> 9b91d537fabe95684fabb1fa0d5c0f5a25c59b9c
 <script>
     /****************************************
      *       Basic Table                   *

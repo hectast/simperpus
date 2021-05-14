@@ -11,11 +11,8 @@ RewriteRule ^admin$ admin.php
 RewriteRule ^beranda_admin$ admin.php?views_admin=beranda_admin
 RewriteRule ^data_anggota$ admin.php?views_admin=data_anggota
 RewriteRule ^data_kelas$ admin.php?views_admin=data_kelas
-<<<<<<< HEAD
 RewriteRule ^data_mapel$ admin.php?views_admin=data_mapel
 RewriteRule ^data_buku$ admin.php?views_admin=data_buku
-=======
->>>>>>> 9b91d537fabe95684fabb1fa0d5c0f5a25c59b9c
 
 RewriteRule ^blank_page$ admin.php?views_admin=blank_page
 
