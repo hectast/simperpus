@@ -66,7 +66,7 @@ if($row->tgl_kembali == 0){
 }
 
 if($row->denda == 0){
-    $denda = '-';
+    $denda = '0';
 }else{
     $denda = $row->denda;
 }
@@ -80,7 +80,7 @@ $html .= '
         <td>'.tgl_indo($row->tgl_pinjam).'</td>
         <td>'.tgl_indo($row->tgl_jatuh_tempo).'</td>
         <td>'.$tgl_kmbli.'</td>
-        <td>'.$denda.'</td>
+        <td>Rp. '.number_format($denda).'</td>
     </tr>
 ';
 $ttl += $row->denda;

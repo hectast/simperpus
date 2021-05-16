@@ -1,5 +1,5 @@
 <footer class="footer text-center">
-    All Rights Reserved by Hectast. Designed and Developed by <a href="https://wrappixel.com">WrapPixel</a>.
+    All Rights Reserved by Hectast. Developed by <a href="https://github.com/hectast" target="_BLANK">Hectast</a>.
 </footer>
 <!-- ============================================================== -->
 <!-- End footer -->

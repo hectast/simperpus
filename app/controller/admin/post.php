@@ -155,7 +155,24 @@ if (isset($_POST['edit_buku'])) {
 
     if ($token_edit === $token) {
         edit_buku($id_buku, $kode_isbn, $judul_buku, $pengarang, $penerbit, $tahun_terbit, $kategori_buku, $jenis_buku, $jumlah_buku, $lokasi_buku, $mysqli);
-        flash('msg_edit_buku', 'Data Berhasil Diedit');
+
+        flash('msg_edit_buku','Data Berhasil Diedit');
+    }
+}
+if (isset($_POST['edit_jumlah_buku'])) {
+    $token_edit_jumlah = $_POST['token_edit_jumlah'];
+    $id_buku = $_POST['id_buku'];
+    $jumlah_buku_sebelumnya = $_POST['jumlah_buku_sebelumnya'];
+    $jumlah_buku = $_POST['jumlah_buku'];
+    $total_buku_sekarang = $jumlah_buku_sebelumnya+$jumlah_buku;
+    $tkn = 'hectast2k21';
+    $token = md5("$tkn:$id_buku");
+
+    // var_dump($jenis_buku);
+
+    if ($token_edit_jumlah === $token) {
+        edit_jumlah_buku($id_buku, $total_buku_sekarang, $mysqli);
+        flash('msg_edit_jumlah_buku','Data Berhasil Diedit');
     }
 }
 

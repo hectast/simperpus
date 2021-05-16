@@ -46,6 +46,18 @@ include 'app/controller/admin/post.php';
         <?php
         }
         ?>
+        <?php
+        if (isset($_SESSION['msg_edit_jumlah_buku'])) {
+        ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <span class="fe fe-check fe-16 mr-2"></span> <?= flash('msg_edit_jumlah_buku'); ?>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <?php
+        }
+        ?>
 
         <!-- batas -->
         <div class="row">
@@ -187,11 +199,11 @@ include 'app/controller/admin/post.php';
                 <form action="cetak_buku" method="post">
                     <div class="modal-body">
                      <div class="form-group">
-                         <label for="">Pilih Kategori</label>
+                        <label for="">Pilih Kategori</label>
                         <select name="kat" class="form-control">
                             <option value="" hidden>-Pilih Kategori-</option>
                             <option value="1">Klasifikasi</option>
-                            <option value="2">Khusus Pelajaran</option>
+                            <option value="0">Khusus Pelajaran</option>
                         </select>
                      </div>
                     </div>

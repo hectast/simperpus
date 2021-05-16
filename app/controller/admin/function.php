@@ -435,7 +435,7 @@ function tampil_data_buku($mysqli)
             <td><?= $row->judul_buku; ?></td>
             <td><?= $row->pengarang; ?></td>
             <td><?= $row->penerbit; ?></td>
-            <td><?= $row->jumlah_buku; ?></td>
+            <td><?= $row->jumlah_buku; ?> <span class="text-primary" style="cursor: pointer;" data-toggle="modal" data-target="#tambahJumlahModal<?= $id ?>"><i class="fa fa-plus-circle m-t-5"></i></span></td>
             <td>
                 <form action="" method="post">
                     <input type="hidden" name="token_hapus" value="<?= $token ?>">
@@ -451,7 +451,7 @@ function tampil_data_buku($mysqli)
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Edit Mata Pelajaran</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Buku</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -496,7 +496,7 @@ function tampil_data_buku($mysqli)
                             <div class="row" class="showKJ">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Penerbit</label>
+                                        <label>Kategori</label>
                                         <input type="text" class="form-control" name="kategori_buku" value="<?= $row->kategori_buku == 1 ? "Klasifikasi" : "Mata Pelajaran"; ?>" required readonly>
                                     </div>
                                 </div>
@@ -510,7 +510,8 @@ function tampil_data_buku($mysqli)
                                             $resultKategK = $queryKategK->get_result();
                                             $rowKategK = $resultKategK->fetch_object();
                                             echo "
-                                                    <input type='text' class='form-control' name='jenis_buku' value='{$rowKategK->nama_mapel}' required readonly>
+                                                    <input type='hidden' class='form-control' name='jenis_buku' value='{$rowKategK->id_mapel}' required readonly>
+                                                    <input type='text' class='form-control' value='{$rowKategK->nama_mapel}' required readonly>
                                                 ";
                                         } else if ($row->kategori_buku == 0 && !empty($row->jenis_buku)) {
                                             $queryKategK = $mysqli->prepare("SELECT * FROM mapel WHERE id_mapel='{$row->jenis_buku}'");
@@ -518,7 +519,8 @@ function tampil_data_buku($mysqli)
                                             $resultKategK = $queryKategK->get_result();
                                             $rowKategK = $resultKategK->fetch_object();
                                             echo "
-                                                    <input type='text' class='form-control' name='jenis_buku' value='{$rowKategK->nama_mapel}' required readonly>
+                                                    <input type='hidden' class='form-control' name='jenis_buku' value='{$rowKategK->id_mapel}' required readonly>
+                                                    <input type='text' class='form-control' value='{$rowKategK->nama_mapel}' required readonly>
                                                 ";
                                         } else {
                                             echo "
@@ -579,7 +581,43 @@ function tampil_data_buku($mysqli)
                             <button type="submit" name="edit_buku" class="btn btn-primary"><i class="fas fa-save"></i> Simpan Perubahan </button>
                         </div>
                     </form>
-            <?php
+                    </div>
+                </div>
+            </div>
+            <!-- modal -->
+            <!-- modal -->
+            <div class="modal fade" id="tambahJumlahModal<?= $id ?>" tabindex="-1" role="dialog" aria-labelledby="tambahJumlahModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Edit Jumlah Buku</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="" method="post">
+                            <div class="modal-body">
+                                <input type="hidden" name="token_edit_jumlah" value="<?= $token ?>">
+                                <input type="hidden" name="id_buku" value="<?= $id ?>">
+                                <div class="form-group">
+                                    <label>Jumlah Buku Sebelumnya</label>
+                                    <input type="number" class="form-control" name="jumlah_buku_sebelumnya" value="<?= $row->jumlah_buku ?>" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>Tambah Jumlah Buku</label>
+                                    <input type="number" class="form-control" name="jumlah_buku" placeholder="Masukkan Jumlah Buku" required>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                <button type="submit" name="edit_jumlah_buku" class="btn btn-primary"><i class="fas fa-save"></i> Simpan </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- modal -->
+    <?php
             $nomor++;
         }
     }
@@ -678,6 +716,9 @@ function tampil_data_pinjam($mysqli){
     <?php
     }
 }
-
-
-            ?>
+function edit_jumlah_buku($id_buku, $total_buku_sekarang, $mysqli)
+{
+    $query = $mysqli->prepare("UPDATE buku SET jumlah_buku='$total_buku_sekarang' WHERE id_buku='$id_buku'");
+    $query->execute();
+}
+?>
