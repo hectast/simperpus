@@ -86,6 +86,47 @@
             })
         }
     });
+
+    <?php if (isset($_GET['views_user'])) : ?>
+        $(document).ready(function(){
+            // jQuery.expr[':'].contains = function(a, i, m) {
+            // return jQuery(a).text().toUpperCase()
+            //     .indexOf(m[3].toUpperCase()) >= 0;
+            // };
+            // $('#mySearchBuku').keyup(function (){
+            //     $('#myDaftarBuku .card').removeClass('d-none');
+            //     var filter = $(this).val(); // get the value of the input, which we filter on
+            //     $('#myDaftarBuku .card .card-body').find('h4:not(:contains("'+filter+'"))').parent().parent().addClass('d-none');
+            // })
+
+            $('#mySearchBuku').keyup(function() {
+                var value = $(this).val().toLowerCase();
+                $(".myBuku").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                    // console.log("im here");
+                });
+            });
+
+            $('#btnMore').click(function() {
+                var last_idBuku = $(this).data("buku");
+                $('#btnMore').html("Loading...");
+                $.ajax({
+                    url: "app/controller/user/function.php",
+                    method: "post",
+                    data: {last_idBuku:last_idBuku},
+                    dataType: "text",
+                    success:function(data) {
+                        if (data != '') {
+                            $('#removeRow').remove();
+                            $('#myBukuContent').append(data);
+                        } else {
+                            $('#btnMore').html("Data Tidak Ditemukan!");
+                        }
+                    }
+                });
+            });
+        });
+    <?php endif; ?>
 </script>
 
 </body>

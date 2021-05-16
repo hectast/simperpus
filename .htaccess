@@ -14,6 +14,11 @@ RewriteRule ^data_kelas$ admin.php?views_admin=data_kelas
 RewriteRule ^data_mapel$ admin.php?views_admin=data_mapel
 RewriteRule ^data_buku$ admin.php?views_admin=data_buku
 
+#user
+RewriteRule ^beranda$ user.php?views_user=beranda
+RewriteRule ^daftar_buku$ user.php?views_user=daftar_buku
+RewriteRule ^daftar_peminjaman$ user.php?views_user=daftar_peminjaman
+
 RewriteRule ^blank_page$ admin.php?views_admin=blank_page
 
 # X-XSS-Protection
