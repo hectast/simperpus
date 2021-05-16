@@ -13,6 +13,7 @@
                         <li class="sidebar-item"><a href="data_buku" class="sidebar-link"><i class="fas fa-book"></i><span class="hide-menu"> Data Buku </span></a></li>
                     </ul>
                 </li>
+                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="peminjaman" aria-expanded="false"><i class="fas fa-address-book"></i><span class="hide-menu">Peminjaman</span></a></li>
             </ul>
         </nav>
         <!-- End Sidebar navigation -->

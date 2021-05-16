@@ -63,7 +63,9 @@ include 'app/controller/admin/post.php';
                             <div class="col-lg-12">
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                                     <i class="fas fa-plus-circle"></i> Tambah Data
-                                </button><br><br>
+                                </button>
+                                <a href="cetak_anggota" target="_blank" class="btn btn-success"><i class="fas fa-print"></i> Cetak</a>
+                                <br><br>
                                 <table class="table" id="datatable1">
                                     <thead class="thead-light">
                                         <tr>

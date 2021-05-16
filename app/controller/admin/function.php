@@ -85,6 +85,17 @@ function tampil_kelas($mysqli)
 //===================================================FUNCTION KELAS===================================================
 
 //===================================================FUNCTION ANGGOTA===================================================
+function tampil_anggota($mysqli)
+{
+    $query = $mysqli->prepare('SELECT * FROM anggota');
+    $query->execute();
+    $result = $query->get_result();
+    while ($row = $result->fetch_object()) {
+    ?>
+        <option value="<?= $row->nisn ?>"><?=$row->nisn ?> - <?= $row->nama_lengkap ?></option>
+    <?php
+    }
+}
 function tampil_data_anggota($mysqli)
 {
     $nomor = 1;
@@ -397,6 +408,17 @@ function edit_mapel($id_mapel, $nama_mapel, $klasifikasi, $mysqli)
 }
 
 // func data buku
+function tampil_buku($mysqli)
+{
+    $query = $mysqli->prepare('SELECT * FROM buku WHERE jumlah_buku > 0');
+    $query->execute();
+    $result = $query->get_result();
+    while ($row = $result->fetch_object()) {
+    ?>
+        <option value="<?= $row->id_buku ?>"><?= $row->judul_buku ?> - Stok : <?= $row->jumlah_buku ?></option>
+    <?php
+    }
+}
 function tampil_data_buku($mysqli)
 {
     $nomor = 1;
@@ -578,4 +600,84 @@ function tampil_data_buku($mysqli)
                                             kategori_buku='$kategori_buku', jenis_buku='$jenis_buku', jumlah_buku='$jumlah_buku', lokasi_buku='$lokasi_buku' WHERE id_buku='$id_buku'");
         $query->execute();
     }
+
+
+//function transaksi
+function simpan_transaksi($nisn,$id_buku,$tgl_pinjam,$lama_hari,$jatuh_tempo,$mysqli){
+    $query = $mysqli->prepare("INSERT INTO transaksi VALUES('','$id_buku','$nisn','$tgl_pinjam','$lama_hari','$jatuh_tempo','','')");
+    $query->execute();
+
+    $q_update = $mysqli->query("SELECT * FROM buku WHERE id_buku = '$id_buku'");
+    $row_buku = $q_update->fetch_assoc();
+    $update = $mysqli->prepare("UPDATE buku SET jumlah_buku = '$row_buku[jumlah_buku]' - 1 WHERE id_buku = '$id_buku'");
+    $update->execute();
+    }
+function kembali($id_buku, $id_transaksi, $tgl_kembali,$denda,$mysqli){
+    $query = $mysqli->prepare("UPDATE transaksi SET tgl_kembali = '$tgl_kembali', denda = '$denda' WHERE id_transaksi = '$id_transaksi'");
+    $query->execute();
+
+    $q_update = $mysqli->query("SELECT * FROM buku WHERE id_buku = '$id_buku'");
+    $row_buku = $q_update->fetch_assoc();
+    $update = $mysqli->prepare("UPDATE buku SET jumlah_buku = '$row_buku[jumlah_buku]' + 1 WHERE id_buku = '$id_buku'");
+    $update->execute();
+}
+function tampil_data_pinjam($mysqli){
+    $nomor  =1;
+    $query = $mysqli->prepare('SELECT * FROM transaksi JOIN buku ON transaksi.id_buku = buku.id_buku JOIN anggota ON transaksi.nisn = anggota.nisn');
+    $query->execute();
+    $result = $query->get_result();
+    while($row = $result->fetch_object()){
+    ?>
+        <tr>
+            <td><?= $nomor++ ?></td>
+            <td><?= $row->judul_buku; ?></td>
+            <td><?= $row->nama_lengkap ?></td>
+            <td><?= tgl_indo($row->tgl_pinjam) ?></td>
+            <td><?= tgl_indo($row->tgl_jatuh_tempo) ?></td>
+            <td>
+            <?php 
+                if($row->tgl_kembali == 0){
+                    echo '<div class="text-danger">Blm Dikembalikan</div>';
+                }else{
+                    echo tgl_indo($row->tgl_kembali);
+                }
+            ?>
+            </td>
+            <td>
+            <?php
+                 if($row->tgl_kembali == 0){
+                    echo '<div class="badge badge-danger">Blm Dikembalikan</div>';
+                }else{
+                    echo '<div class="badge badge-success">Sdh Dikembalikan</div>';
+                }
+            ?>
+            </td>
+            <td>
+            <?php
+                 if($row->denda == 0){
+                    echo '-';
+                }else{
+                    echo 'Denda Rp. '; echo number_format($row->denda);
+                }
+            ?>
+            </td>
+            <td>
+            <?php if($row->tgl_kembali == 0): ?>
+            <form action="" method="post">
+                <input type="hidden" name="id_buku" value="<?= $row->id_buku ?>">
+                <input type="hidden" name="id_transaksi" value="<?= $row->id_transaksi ?>">
+                <input type="hidden" name="tgl_pinjam" value="<?= $row->tgl_pinjam ?>">
+                <input type="hidden" name="lama" value="<?= $row->lama ?>">
+                <button name="kembali" type="submit" class="btn btn-sm btn-success"><i class="fas fa-exchange-alt"></i> Kembalikan</button>
+            </form>
+            <?php else: ?>
+                <div>-</div>
+            <?php endif ?>                
+            </td>
+        </tr>
+    <?php
+    }
+}
+
+
             ?>
