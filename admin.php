@@ -5,7 +5,7 @@ include 'base_url.php';
 
 if(isset($_GET['views_admin']) && $_GET['views_admin'] == 'beranda_admin'){
     $title = 'Beranda';
-    $icon = 'fas fa-tv';
+    $icon = 'mdi mdi-view-dashboard';
 }else if(isset($_GET['views_admin']) && $_GET['views_admin'] == 'data_anggota'){
     $title = 'Data Anggota';
     $icon = 'fas fa-user';
@@ -23,7 +23,7 @@ if(isset($_GET['views_admin']) && $_GET['views_admin'] == 'beranda_admin'){
     $icon = 'fas fa-bookmark';
 }else{
     $title = 'Beranda';
-    $icon = 'fas fa-tv';
+    $icon = 'mdi mdi-view-dashboard';
 }
 
 

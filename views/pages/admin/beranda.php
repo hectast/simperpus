@@ -9,21 +9,43 @@
     <div class="container-fluid">
         <!-- batas -->
         <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-md-flex align-items-center">
-                            <div>
-                                <h4 class="card-title">Judul</h4>
-                                <h5 class="card-subtitle">Sub Judul</h5>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <!-- column -->
-                            <div class="col-lg-12">
-                                <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti laudantium dolores odit dolore distinctio neque dolor eos earum dicta nihil, ex, quo blanditiis possimus fugiat at, beatae dolorem rerum harum?</div>
-                            </div>
-                        </div>
+            <!-- Column -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card card-hover">
+                    <div class="box bg-cyan text-center">
+                        <h1 class="font-light text-white"><i class="mdi mdi-book"></i></h1>
+                        <h4 class="text-white">18</h4>
+                        <h6 class="text-white">Buku</h6>
+                    </div>
+                </div>
+            </div>
+            <!-- Column -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card card-hover">
+                    <div class="box bg-success text-center">
+                        <h1 class="font-light text-white"><i class="mdi mdi-account"></i></h1>
+                        <h4 class="text-white">10</h4>
+                        <h6 class="text-white">Anggota</h6>
+                    </div>
+                </div>
+            </div>
+            <!-- Column -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card card-hover">
+                    <div class="box bg-warning text-center">
+                        <h1 class="font-light text-white"><i class="mdi mdi-book-open-variant"></i></h1>
+                        <h4 class="text-white">5</h4>
+                        <h6 class="text-white">Peminjaman</h6>
+                    </div>
+                </div>
+            </div>
+            <!-- Column -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card card-hover">
+                    <div class="box bg-danger text-center">
+                        <h1 class="font-light text-white"><i class="mdi mdi-clock-alert"></i></h1>
+                        <h4 class="text-white">Rp. 5.000</h4>
+                        <h6 class="text-white">Denda</h6>
                     </div>
                 </div>
             </div>
