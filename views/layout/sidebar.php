@@ -14,6 +14,7 @@
                         <li class="sidebar-item"><a href="data_buku" class="sidebar-link"><i class="fas fa-book"></i><span class="hide-menu"> Data Buku </span></a></li>
                     </ul>
                 </li>
+                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="peminjaman" aria-expanded="false"><i class="fas fa-address-book"></i><span class="hide-menu">Peminjaman</span></a></li>
                 <?php else : ?>
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="beranda" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Beranda</span></a></li>
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="daftar_buku" aria-expanded="false"><i class="mdi mdi-book"></i><span class="hide-menu">Daftar Buku</span></a></li>
