@@ -16,7 +16,7 @@ RewriteRule ^data_buku$ admin.php?views_admin=data_buku
 RewriteRule ^peminjaman$ admin.php?views_admin=peminjaman
 RewriteRule ^tambah_peminjaman$ admin.php?views_admin=tambah_peminjaman
 RewriteRule ^cetak_anggota$ admin.php?views_admin=cetak_anggota
-RewriteRule ^cetak_mapel$ admin.php?views_admin=cetak_mapel
+RewriteRule ^cetak_buku$ admin.php?views_admin=cetak_buku
 RewriteRule ^cetak_transaksi$ admin.php?views_admin=cetak_transaksi
 RewriteRule ^blank_page$ admin.php?views_admin=blank_page
 

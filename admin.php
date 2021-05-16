@@ -5,8 +5,8 @@ include 'base_url.php';
 
 if(isset($_GET['views_admin']) && $_GET['views_admin'] == 'cetak_anggota'){
     include 'views/pages/admin/cetak_anggota.php';
-} else if(isset($_GET['views_admin']) && $_GET['views_admin'] == 'cetak_mapel'){
-    include 'views/pages/admin/cetak_anggota.php';
+} else if(isset($_GET['views_admin']) && $_GET['views_admin'] == 'cetak_buku'){
+    include 'views/pages/admin/cetak_buku.php';
 } else if(isset($_GET['views_admin']) && $_GET['views_admin'] == 'cetak_transaksi'){
     include 'views/pages/admin/cetak_transaksi.php';
 }else{
