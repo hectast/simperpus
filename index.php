@@ -35,8 +35,11 @@
         </div>
         <div class="auth-wrapper d-flex no-block justify-content-center align-items-center bg-dark">
             <div class="auth-box bg-dark border-top border-secondary">
+            <div class="text-center">
+                <img src="public/assets/images/tutwuri.png" alt="logo" class="img-fluid" width="25%">
+            </div>
                 <div id="loginform">
-                    <div class="text-center p-t-10 p-b-10">
+                    <div class="text-center p-t-15 p-b-10">
                         <span class="db">
                             <h2 class="text-light">
                                 <span class="text-success">S</span>
@@ -46,9 +49,10 @@
                             </h2>
                         </span>
                         <h4 class="text-light">SMP NEGERI 1 SUWAWA</h4>
+                        <small><p class="text-light">Jalan Natsir Mooduto, Desa Suwawa, Tingkohubu, Bone Bolango, Kabupaten Bone Bolango, Gorontalo</p></small>
                     </div>
                     <!-- Form -->
-                    <form class="form-horizontal m-t-10" id="loginform" action="" method="POST">
+                    <form class="form-horizontal" id="loginform" action="" method="POST">
                         <div class="row p-b-20">
                             <div class="col-12">
                                 <div class="input-group mb-3">
@@ -57,7 +61,7 @@
                                     </div>
                                     <input type="text" name="nisn" class="form-control form-control-lg" placeholder="NISN" aria-label="Username" aria-describedby="basic-addon1" required="">
                                 </div>
-                                <div class="input-group mb-3">
+                                <div class="input-group mb-1">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text text-dark" id="basic-addon2"><i class="ti-key"></i></span>
                                     </div>
