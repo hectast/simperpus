@@ -4,7 +4,7 @@ RewriteBase /simperpus/
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
-RewriteRule ^index$ index.php
+RewriteRule ^login$ index.php
 RewriteRule ^admin$ admin.php
 
 #admin
@@ -13,6 +13,16 @@ RewriteRule ^data_anggota$ admin.php?views_admin=data_anggota
 RewriteRule ^data_kelas$ admin.php?views_admin=data_kelas
 RewriteRule ^data_mapel$ admin.php?views_admin=data_mapel
 RewriteRule ^data_buku$ admin.php?views_admin=data_buku
+RewriteRule ^peminjaman$ admin.php?views_admin=peminjaman
+RewriteRule ^tambah_peminjaman$ admin.php?views_admin=tambah_peminjaman
+RewriteRule ^cetak_anggota$ admin.php?views_admin=cetak_anggota
+RewriteRule ^cetak_buku$ admin.php?views_admin=cetak_buku
+RewriteRule ^cetak_transaksi$ admin.php?views_admin=cetak_transaksi
+
+#user
+RewriteRule ^beranda$ user.php?views_user=beranda
+RewriteRule ^daftar_buku$ user.php?views_user=daftar_buku
+RewriteRule ^daftar_peminjaman$ user.php?views_user=daftar_peminjaman
 
 RewriteRule ^blank_page$ admin.php?views_admin=blank_page
 

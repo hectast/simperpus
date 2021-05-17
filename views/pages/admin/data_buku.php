@@ -76,7 +76,11 @@ include 'app/controller/admin/post.php';
                             <div class="col-lg-12">
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalInputBuku">
                                     <i class="fas fa-plus-circle"></i> Tambah Data
-                                </button><br><br>
+                                </button>
+                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal">
+                                    <i class="fas fa-print"></i> Cetak
+                                </button>
+                                <br><br>
                                 <table class="table" id="datatable1">
                                     <thead class="thead-light">
                                         <tr>
@@ -176,6 +180,36 @@ include 'app/controller/admin/post.php';
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
                         <button type="submit" name="simpan_buku" class="btn btn-primary"><i class="fas fa-save"></i> Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+     <!-- Modal -->
+     <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Cetak Data Buku</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="cetak_buku" method="post">
+                    <div class="modal-body">
+                     <div class="form-group">
+                        <label for="">Pilih Kategori</label>
+                        <select name="kat" class="form-control">
+                            <option value="" hidden>-Pilih Kategori-</option>
+                            <option value="1">Klasifikasi</option>
+                            <option value="0">Khusus Pelajaran</option>
+                        </select>
+                     </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                        <button type="submit" name="simpan_buku" class="btn btn-primary"><i class="fas fa-print"></i> Cetak</button>
                     </div>
                 </form>
             </div>
