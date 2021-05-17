@@ -14,7 +14,7 @@
                 <div class="card card-hover">
                     <div class="box bg-success text-center">
                         <h1 class="font-light text-white"><i class="mdi mdi-book-open-variant"></i></h1>
-                        <h4 class="text-white">5</h4>
+                        <h4 class="text-white"><?= $result_transaksi->num_rows; ?></h4>
                         <h6 class="text-white">Peminjaman</h6>
                     </div>
                 </div>

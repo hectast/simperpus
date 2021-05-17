@@ -82,7 +82,7 @@
                     ?>
                 </div>
                 <div class="row justify-content-center" id="removeRow">
-                    <div class="col-md-2">
+                    <div class="col-md-5 col-lg-3">
                         <button class="btn btn-primary btn-block" id="btnMore" data-buku="<?= $idBuku; ?>">Lihat Lebih Banyak</button>
                     </div>
                 </div>
