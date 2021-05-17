@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="public/assets/images/favicon.png">
     <title>SIMPERPUS - <?= isset($title) ? $title : "Administator" ?></title>
     <!-- Custom CSS -->
     <link href="public/assets/libs/flot/css/float-chart.css" rel="stylesheet">

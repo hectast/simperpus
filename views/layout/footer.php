@@ -132,6 +132,31 @@
                     }
                 });
             });
+
+            $('#ubahPassword').click(function(e) { 
+                e.preventDefault(); 
+                var nisn = $("#nisn").val();  
+                var pass_now = $("#pass_now").val();  
+                var new_pass = $("#new_pass").val();  
+                var confirm_new_pass = $("#confirm_new_pass").val();  
+                $.ajax({  
+                     url:"app/controller/user/update.php",  
+                     method:"POST",  
+                     dataType:'json',
+                     cache:false,
+                     data:{nisn:nisn,pass_now:pass_now,new_pass:new_pass,confirm_new_pass:confirm_new_pass},  
+                     success:function(data){  
+                        // console.log(data);
+                        if (data.error != '') {
+                            $('#contentBody').html('<div class="alert alert-danger" role="alert">'+ data.error +'</div>');
+                        } else {
+                            $('#contentBody').html('<div class="alert alert-success" role="alert">'+ data.success +'</div>');
+                            $('#modalUbahPassword').modal('show');
+                            $('#formUbahPassword :input').val("");
+                        }
+                     }  
+                });  
+           });
         });
     <?php endif; ?>
 

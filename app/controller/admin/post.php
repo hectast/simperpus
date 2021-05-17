@@ -38,12 +38,14 @@ if (isset($_POST['simpan_anggota'])) {
     $tanggal_lahir = $_POST['tanggal_lahir'];
     $kelas = $_POST['kelas'];
     $tahun = $_POST['tahun_masuk'];
+    $pass = $nisn;
+    $encrypt_pass = password_hash($pass, PASSWORD_DEFAULT);
     $media = upload_gambar();
     if (!$media) {
         return false;
     }
 
-    simpan_anggota($nisn, $nm_lengkap, $jk, $tempat_lahir, $tanggal_lahir, $kelas, $tahun, $media, $mysqli);
+    simpan_anggota($nisn, $nm_lengkap, $jk, $tempat_lahir, $tanggal_lahir, $kelas, $tahun, $media, $encrypt_pass, $mysqli);
     flash('msg_simpan_anggota', 'Data Anggota Berhasil Disimpan');
 }
 

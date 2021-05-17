@@ -133,13 +133,13 @@ function tampil_data_anggota($mysqli)
 
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-5">
+                            <div class="col-4">
                                 <div>
                                     <img src="public/uploads/<?= $row->foto ?>" width="100%" height="350px" alt="">
                                 </div>
                             </div>
 
-                            <div class="col-7">
+                            <div class="col-8">
                                 <div class="row p-3 bg-light">
                                     <div class="col-4">
                                         NISN
@@ -295,9 +295,9 @@ function tampil_data_anggota($mysqli)
     }
 }
 
-function simpan_anggota($nisn, $nm_lengkap, $jk, $tempat_lahir, $tanggal_lahir, $kelas, $tahun, $media, $mysqli)
+function simpan_anggota($nisn, $nm_lengkap, $jk, $tempat_lahir, $tanggal_lahir, $kelas, $tahun, $media, $encrypt_pass, $mysqli)
 {
-    $query = $mysqli->prepare("INSERT INTO anggota values ('$nisn','$nm_lengkap','$tempat_lahir','$tanggal_lahir','$jk','$kelas','$tahun','$media')");
+    $query = $mysqli->prepare("INSERT INTO anggota values ('$nisn','$nm_lengkap','$tempat_lahir','$tanggal_lahir','$jk','$kelas','$tahun','$media','$encrypt_pass')");
     $query->execute();
 }
 

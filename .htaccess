@@ -4,7 +4,7 @@ RewriteBase /simperpus/
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
-RewriteRule ^index$ index.php
+RewriteRule ^login$ index.php
 RewriteRule ^admin$ admin.php
 
 #admin
