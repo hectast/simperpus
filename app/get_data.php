@@ -9,8 +9,17 @@
         $stmt_transaksi->execute();
         $result_transaksi = $stmt_transaksi->get_result();
         $row_transaksi = $result_transaksi->fetch_object();
+
+        $stmt_transaksi2 = $mysqli->prepare("SELECT * FROM transaksi WHERE tgl_kembali='0' AND nisn='{$_SESSION['unique_user']}'");
+        $stmt_transaksi2->execute();
+        $result_transaksi2 = $stmt_transaksi2->get_result();
+        $row_transaksi2 = $result_transaksi2->fetch_object();
+
+
         
         $stmt_transaksi->close();
         $stmt_data->close();
+        $stmt_transaksi2->close();
+
     }
 ?>

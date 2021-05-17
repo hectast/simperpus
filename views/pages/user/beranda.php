@@ -10,7 +10,7 @@
         <!-- batas -->
         <div class="row">
             <!-- Column -->
-            <div class="col-md-6 col-lg-6">
+            <div class="col-md-6 col-lg-4">
                 <div class="card card-hover">
                     <div class="box bg-success text-center">
                         <h1 class="font-light text-white"><i class="mdi mdi-book-open-variant"></i></h1>
@@ -19,12 +19,26 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card card-hover">
+                    <div class="box bg-warning text-center">
+                        <h1 class="font-light text-white"><i class="mdi mdi-library-books"></i></h1>
+                        <h4 class="text-white"><?= $result_transaksi2->num_rows; ?></h4>
+                        <h6 class="text-white">Buku Yang Belum Dikembalikan</h6>
+                    </div>
+                </div>
+            </div>
             <!-- Column -->
-            <div class="col-md-6 col-lg-6">
+            <div class="col-md-6 col-lg-4">
                 <div class="card card-hover">
                     <div class="box bg-danger text-center">
                         <h1 class="font-light text-white"><i class="mdi mdi-clock-alert"></i></h1>
-                        <h4 class="text-white">Rp. 5.000</h4>
+                        <h4 class="text-white">Rp. <?php 
+                        $query = $mysqli->query("SELECT sum(denda) AS val_sum FROM transaksi WHERE nisn = '$row_data->nisn'");
+                        while($row = $query->fetch_assoc()){
+                            echo number_format($row['val_sum']);        
+                        }
+                        ?></h4>
                         <h6 class="text-white">Denda</h6>
                     </div>
                 </div>
