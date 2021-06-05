@@ -76,39 +76,6 @@ if (isset($_POST['hapus_anggota'])) {
     flash('msg_hapus_anggota', 'Data Berhasil Dihapus');
 }
 
-
-// post data mapel
-if (isset($_POST['simpan_mapel'])) {
-    $nama_mapel = $_POST['nama_mapel'];
-    $klasifikasi = isset($_POST['klasifikasi']) ? $_POST['klasifikasi'] : 0;
-    simpan_mapel($nama_mapel, $klasifikasi, $mysqli);
-    flash('msg_simpan_mapel', 'Data Berhasil Disimpan');
-}
-if (isset($_POST['hapus_mapel'])) {
-    $token_hapus = $_POST['token_hapus'];
-    $id_mapel = $_POST['id_mapel'];
-    $tkn = 'hectast2k21';
-    $token = md5("$tkn:$id_mapel");
-
-    if ($token_hapus === $token) {
-        hapus_mapel($id_mapel, $mysqli);
-        flash('msg_hapus_mapel', 'Data Berhasil Dihapus');
-    }
-}
-if (isset($_POST['edit_mapel'])) {
-    $token_edit = $_POST['token_edit'];
-    $id_mapel = $_POST['id_mapel'];
-    $nama_mapel = $_POST['nama_mapel'];
-    $klasifikasi = isset($_POST['klasifikasi']) ? $_POST['klasifikasi'] : 0;
-
-    $tkn = 'hectast2k21';
-    $token = md5("$tkn:$id_mapel");
-    if ($token_edit === $token) {
-        edit_mapel($id_mapel, $nama_mapel, $klasifikasi, $mysqli);
-        flash('msg_edit_mapel', 'Data Berhasil Diedit');
-    }
-}
-
 // post data buku
 if (isset($_POST['simpan_buku'])) {
     $kode_isbn = $_POST['kode_isbn'];

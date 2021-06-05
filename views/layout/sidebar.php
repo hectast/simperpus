@@ -10,7 +10,7 @@
                     <ul aria-expanded="false" class="collapse  first-level">
                         <li class="sidebar-item"><a href="data_kelas" class="sidebar-link"><i class="fas fa-clipboard"></i><span class="hide-menu"> Data Kelas </span></a></li>
                         <li class="sidebar-item"><a href="data_anggota" class="sidebar-link"><i class="fas fa-users"></i><span class="hide-menu"> Data Anggota </span></a></li>
-                        <li class="sidebar-item"><a href="data_mapel" class="sidebar-link"><i class="fas fa-bookmark"></i><span class="hide-menu"> Data Mata Pelajaran </span></a></li>
+                        <!-- <li class="sidebar-item"><a href="data_mapel" class="sidebar-link"><i class="fas fa-bookmark"></i><span class="hide-menu"> Data Mata Pelajaran </span></a></li> -->
                         <li class="sidebar-item"><a href="data_buku" class="sidebar-link"><i class="fas fa-book"></i><span class="hide-menu"> Data Buku </span></a></li>
                     </ul>
                 </li>
