@@ -96,7 +96,7 @@ function tampil_anggota($mysqli)
     <?php
     }
 }
-function tampil_data_anggota($mysqli)
+function  tampil_data_anggota($mysqli)
 {
     $nomor = 1;
     $query = $mysqli->prepare('SELECT * FROM anggota JOIN kelas ON anggota.id_kelas = kelas.id_kelas');
@@ -109,6 +109,7 @@ function tampil_data_anggota($mysqli)
             <td><?= $nomor++ ?></td>
             <td><?= $row->nisn; ?></td>
             <td><?= $row->nama_lengkap ?></td>
+            <td><?= $row->jk ?></td>
             <td><?= $row->nama_kelas; ?></td>
             <td>
                 <form action="" method="post">
@@ -164,6 +165,17 @@ function tampil_data_anggota($mysqli)
                                 </div>
                                 <div class="row p-3 bg-light">
                                     <div class="col-4">
+                                        No Hp
+                                    </div>
+                                    <div class="col-1">
+                                        :
+                                    </div>
+                                    <div class="col-7">
+                                        <?= $row->no_hp; ?>
+                                    </div>
+                                </div>
+                                <div class="row p-3 bg-light">
+                                    <div class="col-4">
                                         Tempat - Tanggal Lahir
                                     </div>
                                     <div class="col-1">
@@ -209,6 +221,10 @@ function tampil_data_anggota($mysqli)
                             </div>
 
                         </div>
+                    </div>
+                    <div class="modal-footer">
+                        <?php include 'base_url.php'; ?>
+                        <a href="<?= $base_url; ?>app/controller/cetak/cetak_kartu_anggota.php?id=<?= $row->nisn;?>" target="_blank" class="btn btn-primary"><i class="fas fa-print"></i> Cetak</a>
                     </div>
                 </div>
             </div>
@@ -267,6 +283,10 @@ function tampil_data_anggota($mysqli)
                                 <input type="date" name="tgl_lahir" class="form-control" value="<?= $row->tgl_lahir ?>">
                             </div>
                             <div class="form-group">
+                                <label for="">No HP</label>
+                                <input type="text" name="no_hp" class="form-control" value="<?= $row->no_hp ?>">
+                            </div>
+                            <div class="form-group">
                                 <label for="">Kelas</label>
                                 <select name="kelas" class="form-control">
                                     <option hidden value="<?= $row->id_kelas ?>"><?= $row->nama_kelas; ?></option>
@@ -295,15 +315,15 @@ function tampil_data_anggota($mysqli)
     }
 }
 
-function simpan_anggota($nisn, $nm_lengkap, $jk, $tempat_lahir, $tanggal_lahir, $kelas, $tahun, $media, $encrypt_pass, $mysqli)
+function simpan_anggota($nisn, $nm_lengkap,$no_hp, $jk, $tempat_lahir, $tanggal_lahir, $kelas, $tahun, $media, $encrypt_pass, $mysqli)
 {
-    $query = $mysqli->prepare("INSERT INTO anggota values ('$nisn','$nm_lengkap','$tempat_lahir','$tanggal_lahir','$jk','$kelas','$tahun','$media','$encrypt_pass')");
+    $query = $mysqli->prepare("INSERT INTO anggota values ('$nisn','$nm_lengkap','$no_hp','$tempat_lahir','$tanggal_lahir','$jk','$kelas','$tahun','$media','$encrypt_pass')");
     $query->execute();
 }
 
-function edit_anggota($id, $nisn, $nama_lengkap, $jk, $tempat_lahir, $tgl, $kelas, $tahun, $gambar_baru, $mysqli)
+function edit_anggota($id, $nisn, $nama_lengkap, $jk, $tempat_lahir, $tgl, $no_hp, $kelas, $tahun, $gambar_baru, $mysqli)
 {
-    $query = $mysqli->prepare("UPDATE anggota SET nisn = '$nisn', nama_lengkap = '$nama_lengkap', tempat_lahir = '$tempat_lahir', tgl_lahir = '$tgl',jk = '$jk', id_kelas = '$kelas', thn_masuk = '$tahun', foto = '$gambar_baru' WHERE nisn = '$id'");
+    $query = $mysqli->prepare("UPDATE anggota SET nisn = '$nisn', nama_lengkap = '$nama_lengkap', tempat_lahir = '$tempat_lahir', tgl_lahir = '$tgl',jk = '$jk', id_kelas = '$kelas', thn_masuk = '$tahun', foto = '$gambar_baru', no_hp = '$no_hp' WHERE nisn = '$id'");
     $query->execute();
 }
 
@@ -641,8 +661,8 @@ function tampil_data_buku($mysqli)
 
 
 //function transaksi
-function simpan_transaksi($nisn,$id_buku,$tgl_pinjam,$lama_hari,$jatuh_tempo,$mysqli){
-    $query = $mysqli->prepare("INSERT INTO transaksi VALUES('','$id_buku','$nisn','$tgl_pinjam','$lama_hari','$jatuh_tempo','','')");
+function simpan_transaksi($nisn,$nuptk,$id_buku,$tgl_pinjam,$lama_hari,$jatuh_tempo,$mysqli){
+    $query = $mysqli->prepare("INSERT INTO transaksi VALUES('','$id_buku','$nisn',$nuptk,'$tgl_pinjam','$lama_hari','$jatuh_tempo','','')");
     $query->execute();
 
     $q_update = $mysqli->query("SELECT * FROM buku WHERE id_buku = '$id_buku'");
@@ -661,7 +681,7 @@ function kembali($id_buku, $id_transaksi, $tgl_kembali,$denda,$mysqli){
 }
 function tampil_data_pinjam($mysqli){
     $nomor  =1;
-    $query = $mysqli->prepare('SELECT * FROM transaksi JOIN buku ON transaksi.id_buku = buku.id_buku JOIN anggota ON transaksi.nisn = anggota.nisn');
+    $query = $mysqli->prepare('SELECT * FROM transaksi JOIN buku ON transaksi.id_buku = buku.id_buku');
     $query->execute();
     $result = $query->get_result();
     while($row = $result->fetch_object()){
@@ -669,7 +689,19 @@ function tampil_data_pinjam($mysqli){
         <tr>
             <td><?= $nomor++ ?></td>
             <td><?= $row->judul_buku; ?></td>
-            <td><?= $row->nama_lengkap ?></td>
+            <td>
+                <?php 
+                    if($row->nisn == '0'){
+                        $query_guru = $mysqli->query("SELECT * FROM guru WHERE nuptk ='$row->nuptk'");
+                        $row_guru = $query_guru->fetch_object();
+                        echo $row_guru->nama_lengkap;
+                    }else if($row->nuptk =='0'){
+                        $query_anggota = $mysqli->query("SELECT * FROM anggota WHERE nisn ='$row->nisn'");
+                        $row_anggota = $query_anggota->fetch_object();
+                        echo $row_anggota->nama_lengkap;
+                    }
+                ?>
+            </td>
             <td><?= tgl_indo($row->tgl_pinjam) ?></td>
             <td><?= tgl_indo($row->tgl_jatuh_tempo) ?></td>
             <td>

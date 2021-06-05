@@ -10,12 +10,14 @@ RewriteRule ^admin$ admin.php
 #admin
 RewriteRule ^beranda_admin$ admin.php?views_admin=beranda_admin
 RewriteRule ^data_anggota$ admin.php?views_admin=data_anggota
+RewriteRule ^data_guru$ admin.php?views_admin=data_guru
 RewriteRule ^data_kelas$ admin.php?views_admin=data_kelas
 RewriteRule ^data_mapel$ admin.php?views_admin=data_mapel
 RewriteRule ^data_buku$ admin.php?views_admin=data_buku
 RewriteRule ^peminjaman$ admin.php?views_admin=peminjaman
 RewriteRule ^tambah_peminjaman$ admin.php?views_admin=tambah_peminjaman
 RewriteRule ^cetak_anggota$ admin.php?views_admin=cetak_anggota
+RewriteRule ^cetak_guru$ admin.php?views_admin=cetak_guru
 RewriteRule ^cetak_buku$ admin.php?views_admin=cetak_buku
 RewriteRule ^cetak_transaksi$ admin.php?views_admin=cetak_transaksi
 

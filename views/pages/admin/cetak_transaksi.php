@@ -56,7 +56,7 @@ $html = '
 ';
 $nomor = 1;
 $query_blm = $mysqli->query("SELECT * FROM transaksi WHERE tgl_kembali = '0'");
-$query = $mysqli->query("SELECT * FROM transaksi JOIN buku ON transaksi.id_buku = buku.id_buku JOIN anggota ON transaksi.nisn = anggota.nisn");
+$query = $mysqli->query("SELECT * FROM transaksi JOIN buku ON transaksi.id_buku = buku.id_buku");
 while($row = $query->fetch_object()){
 
 if($row->tgl_kembali == 0){
@@ -71,12 +71,21 @@ if($row->denda == 0){
     $denda = $row->denda;
 }
 
+if($row->nisn == '0'){
+    $query_guru = $mysqli->query("SELECT * FROM guru WHERE nuptk ='$row->nuptk'");
+    $row_guru = $query_guru->fetch_object();
+    $nm = $row_guru->nama_lengkap;
+}else if($row->nuptk =='0'){
+    $query_anggota = $mysqli->query("SELECT * FROM anggota WHERE nisn ='$row->nisn'");
+    $row_anggota = $query_anggota->fetch_object();
+    $nm = $row_anggota->nama_lengkap;
+}
 
 $html .= '
     <tr>
         <td>'.$nomor++.'</td>
         <td>'.$row->judul_buku.'</td>
-        <td>'.$row->nama_lengkap.'</td>
+        <td>'.$nm.'</td>
         <td>'.tgl_indo($row->tgl_pinjam).'</td>
         <td>'.tgl_indo($row->tgl_jatuh_tempo).'</td>
         <td>'.$tgl_kmbli.'</td>

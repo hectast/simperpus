@@ -103,11 +103,12 @@ table{
                     <form action="" method="post">
                         <div class="row">
                             <div class="col-12">
-                                <div class="form-group">
+                                <div class="form-group" id="optionP">
                                     <label for="">Peminjam / Anggota</label>
-                                    <select name="nisn" class="form-control opsi_modal" style="width:100%;">
-                                        <option>-Pilih Peminjam / Anggota-</option>
-                                        <?= tampil_anggota($mysqli); ?>
+                                    <select class="form-control opsi_modal" id="option_peminjam" style="width:100%;">
+                                        <option hidden>-Pilih Peminjam / Anggota-</option>
+                                        <option value="1">Siswa</option>
+                                        <option value="2">Guru</option>
                                     </select>
                                 </div>
                             </div>

@@ -38,6 +38,7 @@ if (isset($_POST['simpan_anggota'])) {
     $tanggal_lahir = $_POST['tanggal_lahir'];
     $kelas = $_POST['kelas'];
     $tahun = $_POST['tahun_masuk'];
+    $no_hp = $_POST['no_hp'];
     $pass = $nisn;
     $encrypt_pass = password_hash($pass, PASSWORD_DEFAULT);
     $media = upload_gambar();
@@ -45,7 +46,7 @@ if (isset($_POST['simpan_anggota'])) {
         return false;
     }
 
-    simpan_anggota($nisn, $nm_lengkap, $jk, $tempat_lahir, $tanggal_lahir, $kelas, $tahun, $media, $encrypt_pass, $mysqli);
+    simpan_anggota($nisn, $nm_lengkap,$no_hp, $jk, $tempat_lahir, $tanggal_lahir, $kelas, $tahun, $media, $encrypt_pass, $mysqli);
     flash('msg_simpan_anggota', 'Data Anggota Berhasil Disimpan');
 }
 
@@ -55,6 +56,7 @@ if (isset($_POST['edit_anggota'])) {
     $nama_lengkap = $_POST['nama_lengkap'];
     $jk = $_POST['jk'];
     $tempat_lahir = $_POST['tempat_lahir'];
+    $no_hp = $_POST['no_hp'];
     $tgl = $_POST['tgl_lahir'];
     $kelas = $_POST['kelas'];
     $tahun = $_POST['tahun'];
@@ -66,7 +68,7 @@ if (isset($_POST['edit_anggota'])) {
         unlink("public/uploads/$gambar_sebelumnya");
     }
 
-    edit_anggota($id, $nisn, $nama_lengkap, $jk, $tempat_lahir, $tgl, $kelas, $tahun, $gambar_baru, $mysqli);
+    edit_anggota($id, $nisn, $nama_lengkap, $jk, $tempat_lahir, $tgl,$no_hp, $kelas, $tahun, $gambar_baru, $mysqli);
     flash('msg_edit_anggota', 'Data Anggota Berhasil Diedit');
 }
 
@@ -179,14 +181,15 @@ if (isset($_POST['edit_jumlah_buku'])) {
 }
 
 if (isset($_POST['tambah_transaksi'])) {
-    $nisn = $_POST['nisn'];
+    $nisn = isset($_POST['nisn']) ? $_POST['nisn'] : '0';
+    $nuptk = isset($_POST['nuptk']) ? $_POST['nuptk'] : '0';
     $id_buku = $_POST['id_buku'];
     $lama_hari = $_POST['lama_hari'];
     $tgl_pinjam = date('Y-m-d');
     $tgl_jth = strtotime("+" . $lama_hari . "day", strtotime($tgl_pinjam));
     $jatuh_tempo = date('Y-m-d', $tgl_jth);
 
-    simpan_transaksi($nisn, $id_buku, $tgl_pinjam, $lama_hari, $jatuh_tempo, $mysqli);
+    simpan_transaksi($nisn,$nuptk, $id_buku, $tgl_pinjam, $lama_hari, $jatuh_tempo, $mysqli);
     flash('msg_simpan_pinjam', 'Data Peminjaman Berhasil Disimpan');
 }
 if (isset($_POST['kembali'])) {
