@@ -93,6 +93,29 @@
                 })
         }
     });
+    //pilihan_peminjam
+    $('#option_peminjam').change(function() {
+        $('#option_anggota').remove();
+        if ($('#option_peminjam').val() == '1') {
+            $.get('views/pages/admin/option_anggota.php', {
+                    option_peminjam: $('#option_peminjam').val()
+                })
+                .done(function(data) {
+                    $('#optionP').after(data);
+                })
+        }
+    });
+    $('#option_peminjam').change(function() {
+        $('#option_guru').remove();
+        if ($('#option_peminjam').val() == '2') {
+            $.get('views/pages/admin/option_guru.php', {
+                    option_peminjam: $('#option_peminjam').val()
+                })
+                .done(function(data) {
+                    $('#optionP').after(data);
+                })
+        }
+    })
     
     <?php if (isset($_GET['views_user'])) : ?>
         $(document).ready(function(){
@@ -164,6 +187,7 @@
     $('.opsi2').select2();
     $('.opsi3').select2();
     $('.opsi4').select2();
+    $('.option').select2();
     $('.opsi_modal').select2({
         dropdownParent: $('#exampleModal')
     });

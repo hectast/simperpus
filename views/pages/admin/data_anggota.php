@@ -72,6 +72,7 @@ include 'app/controller/admin/post.php';
                                             <th>No</th>
                                             <th>NISN</th>
                                             <th>Nama</th>
+                                            <th>Jenis Kelamin</th>
                                             <th>Kelas</th>
                                             <th>Aksi</th>
                                         </tr>
@@ -120,6 +121,10 @@ include 'app/controller/admin/post.php';
                                             <div class="form-group">
                                                 <label for="">Tanggal Lahir</label>
                                                 <input type="date" class="form-control" name="tanggal_lahir">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="">No Hp</label>
+                                                <input type="text" class="form-control" name="no_hp">
                                             </div>
                                             <div class="form-group">
                                                 <label for="">Foto</label>

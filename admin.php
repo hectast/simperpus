@@ -3,6 +3,7 @@ session_start();
 // error_reporting(0);
 include 'app/env.php';
 include 'app/session.php';
+$base_url = 'https://localhost/simperpus/';
 
 if (!isset($_SESSION['unique_user'])) {
 ?>
@@ -24,7 +25,7 @@ if (isset($_SESSION['unique_user']) && $_SESSION['type_user'] != "admin") {
 return false;
 }
 
-include 'base_url.php';
+
 
 if(isset($_GET['views_admin']) && $_GET['views_admin'] == 'cetak_anggota'){
     include 'views/pages/admin/cetak_anggota.php';
@@ -32,6 +33,8 @@ if(isset($_GET['views_admin']) && $_GET['views_admin'] == 'cetak_anggota'){
     include 'views/pages/admin/cetak_buku.php';
 } else if(isset($_GET['views_admin']) && $_GET['views_admin'] == 'cetak_transaksi'){
     include 'views/pages/admin/cetak_transaksi.php';
+} else if(isset($_GET['views_admin']) && $_GET['views_admin'] == 'cetak_guru'){
+    include 'views/pages/admin/cetak_guru.php';
 }else{
 
 
@@ -40,6 +43,9 @@ if(isset($_GET['views_admin']) && $_GET['views_admin'] == 'beranda_admin'){
     $icon = 'mdi mdi-view-dashboard';
 }else if(isset($_GET['views_admin']) && $_GET['views_admin'] == 'data_anggota'){
     $title = 'Data Anggota';
+    $icon = 'fas fa-users';
+}else if(isset($_GET['views_admin']) && $_GET['views_admin'] == 'data_guru'){
+    $title = 'Data Guru';
     $icon = 'fas fa-user';
 }else if(isset($_GET['views_admin']) && $_GET['views_admin'] == 'data_kelas'){
     $title = 'Data Kelas';
@@ -76,6 +82,8 @@ if(isset($_GET['views_admin']) && $_GET['views_admin'] == 'beranda_admin'){
     include 'views/pages/blankpage.php';
 }else if(isset($_GET['views_admin']) && $_GET['views_admin'] == 'data_anggota'){
     include 'views/pages/admin/data_anggota.php';
+}else if(isset($_GET['views_admin']) && $_GET['views_admin'] == 'data_guru'){
+    include 'views/pages/admin/data_guru.php';
 }else if(isset($_GET['views_admin']) && $_GET['views_admin'] == 'data_kelas'){
     include 'views/pages/admin/data_kelas.php';
 }else if(isset($_GET['views_admin']) && $_GET['views_admin'] == 'data_buku'){
