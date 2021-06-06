@@ -38,6 +38,7 @@ if (isset($_POST['simpan_anggota'])) {
     $tanggal_lahir = $_POST['tanggal_lahir'];
     $kelas = $_POST['kelas'];
     $tahun = $_POST['tahun_masuk'];
+    $no_hp = $_POST['no_hp'];
     $pass = $nisn;
     $encrypt_pass = password_hash($pass, PASSWORD_DEFAULT);
     $media = upload_gambar();
@@ -45,7 +46,7 @@ if (isset($_POST['simpan_anggota'])) {
         return false;
     }
 
-    simpan_anggota($nisn, $nm_lengkap, $jk, $tempat_lahir, $tanggal_lahir, $kelas, $tahun, $media, $encrypt_pass, $mysqli);
+    simpan_anggota($nisn, $nm_lengkap,$no_hp, $jk, $tempat_lahir, $tanggal_lahir, $kelas, $tahun, $media, $encrypt_pass, $mysqli);
     flash('msg_simpan_anggota', 'Data Anggota Berhasil Disimpan');
 }
 
@@ -55,6 +56,7 @@ if (isset($_POST['edit_anggota'])) {
     $nama_lengkap = $_POST['nama_lengkap'];
     $jk = $_POST['jk'];
     $tempat_lahir = $_POST['tempat_lahir'];
+    $no_hp = $_POST['no_hp'];
     $tgl = $_POST['tgl_lahir'];
     $kelas = $_POST['kelas'];
     $tahun = $_POST['tahun'];
@@ -66,7 +68,7 @@ if (isset($_POST['edit_anggota'])) {
         unlink("public/uploads/$gambar_sebelumnya");
     }
 
-    edit_anggota($id, $nisn, $nama_lengkap, $jk, $tempat_lahir, $tgl, $kelas, $tahun, $gambar_baru, $mysqli);
+    edit_anggota($id, $nisn, $nama_lengkap, $jk, $tempat_lahir, $tgl,$no_hp, $kelas, $tahun, $gambar_baru, $mysqli);
     flash('msg_edit_anggota', 'Data Anggota Berhasil Diedit');
 }
 
@@ -76,53 +78,52 @@ if (isset($_POST['hapus_anggota'])) {
     flash('msg_hapus_anggota', 'Data Berhasil Dihapus');
 }
 
-
-// post data mapel
-if (isset($_POST['simpan_mapel'])) {
-    $nama_mapel = $_POST['nama_mapel'];
-    $klasifikasi = isset($_POST['klasifikasi']) ? $_POST['klasifikasi'] : 0;
-    simpan_mapel($nama_mapel, $klasifikasi, $mysqli);
-    flash('msg_simpan_mapel', 'Data Berhasil Disimpan');
-}
-if (isset($_POST['hapus_mapel'])) {
-    $token_hapus = $_POST['token_hapus'];
-    $id_mapel = $_POST['id_mapel'];
-    $tkn = 'hectast2k21';
-    $token = md5("$tkn:$id_mapel");
-
-    if ($token_hapus === $token) {
-        hapus_mapel($id_mapel, $mysqli);
-        flash('msg_hapus_mapel', 'Data Berhasil Dihapus');
-    }
-}
-if (isset($_POST['edit_mapel'])) {
-    $token_edit = $_POST['token_edit'];
-    $id_mapel = $_POST['id_mapel'];
-    $nama_mapel = $_POST['nama_mapel'];
-    $klasifikasi = isset($_POST['klasifikasi']) ? $_POST['klasifikasi'] : 0;
-
-    $tkn = 'hectast2k21';
-    $token = md5("$tkn:$id_mapel");
-    if ($token_edit === $token) {
-        edit_mapel($id_mapel, $nama_mapel, $klasifikasi, $mysqli);
-        flash('msg_edit_mapel', 'Data Berhasil Diedit');
-    }
-}
-
 // post data buku
 if (isset($_POST['simpan_buku'])) {
     $kode_isbn = $_POST['kode_isbn'];
     $judul_buku = $_POST['judul_buku'];
+    $kategori = $_POST['kategori'];
+    $klasifikasi = $_POST['klasifikasi'];
+    $jumlah_buku = $_POST['jumlah_buku'];
+    $harga_satuan = $_POST['harga_satuan'];
     $pengarang = $_POST['pengarang'];
     $penerbit = $_POST['penerbit'];
+    $tempat_terbit = $_POST['tempat_terbit'];
     $tahun_terbit = $_POST['tahun_terbit'];
-    $kategori_buku = $_POST['kategori_buku'];
-    $jenis_buku = $_POST['jenis_buku'];
-    $jumlah_buku = $_POST['jumlah_buku'];
-    $lokasi_buku = $_POST['lokasi_buku'];
+    $jilid_edisi = $_POST['jilid_edisi'];
+    $sumber_dana = $_POST['sumber_dana'];
     $tanggal_input = date("Y-m-d H:i:s");
 
-    simpan_buku($kode_isbn, $judul_buku, $pengarang, $penerbit, $tahun_terbit, $kategori_buku, $jenis_buku, $jumlah_buku, $lokasi_buku, $tanggal_input, $mysqli);
+    $query = $mysqli->query("SELECT * FROM buku WHERE kode_klasifikasi='$klasifikasi'");
+    
+    if (mysqli_num_rows($query) == 0) {
+        $cek_no_buku = $klasifikasi."0";
+        
+        $urutan = (int) substr($cek_no_buku, 1, 3);
+        $urutan++;
+        
+        $kode_klasifikasi = $klasifikasi;
+        $potong_kode = substr($kode_klasifikasi, 0, -2);
+        
+        $no_buku = $potong_kode . sprintf("%03s", $urutan);
+        // echo $no_buku;
+    } else {
+        $query2 = $mysqli->query("SELECT max(no_buku) AS kode_terbesar, kode_klasifikasi FROM buku WHERE kode_klasifikasi='$klasifikasi'");
+        $row2 = $query2->fetch_assoc();
+
+        $cek_no_buku = $row2['kode_terbesar'];
+
+        $urutan = (int) substr($cek_no_buku, 1, 3);
+        $urutan++;
+    
+        $kode_klasifikasi = $row2['kode_klasifikasi'];
+        $potong_kode = substr($kode_klasifikasi, 0, -2);
+        
+        $no_buku = $potong_kode . sprintf("%03s", $urutan);
+        // echo $no_buku;
+    }
+
+    simpan_buku($kode_isbn, $judul_buku, $kategori, $klasifikasi, $jumlah_buku, $harga_satuan, $pengarang, $penerbit, $tempat_terbit, $tahun_terbit, $jilid_edisi, $sumber_dana, $tanggal_input, $no_buku, $mysqli);
     flash('msg_simpan_buku', 'Data Berhasil Disimpan');
 }
 if (isset($_POST['hapus_buku'])) {
@@ -140,23 +141,62 @@ if (isset($_POST['edit_buku'])) {
     // $nomor_jenis_buku = $_POST['nomor_jenis_buku'];
     $token_edit = $_POST['token_edit'];
     $id_buku = $_POST['id_buku'];
+    $nbk = $_POST['no_buku'];
     $kode_isbn = $_POST['kode_isbn'];
     $judul_buku = $_POST['judul_buku'];
+    $kategori = $_POST['kategori'];
+    $klasifikasi = $_POST['klasifikasi'];
+    $jumlah_buku = $_POST['jumlah_buku'];
+    $harga_satuan = $_POST['harga_satuan'];
     $pengarang = $_POST['pengarang'];
     $penerbit = $_POST['penerbit'];
+    $tempat_terbit = $_POST['tempat_terbit'];
     $tahun_terbit = $_POST['tahun_terbit'];
-    $kategori_buku = $_POST['kategori_buku'];
-    // $jenis_buku = $_POST['jenis_buku'.$nomor_jenis_buku];
-    $jenis_buku = $_POST['jenis_buku'];
-    $jumlah_buku = $_POST['jumlah_buku'];
-    $lokasi_buku = $_POST['lokasi_buku'];
+    $jilid_edisi = $_POST['jilid_edisi'];
+    $sumber_dana = $_POST['sumber_dana'];
+
+    $cek_kode = $mysqli->query("SELECT * FROM buku WHERE kode_klasifikasi='$klasifikasi' AND no_buku='$nbk'");
+
+    if (mysqli_num_rows($cek_kode) == 0) {
+        $query = $mysqli->query("SELECT * FROM buku WHERE kode_klasifikasi='$klasifikasi'");
+    
+        if (mysqli_num_rows($query) == 0) {
+            $cek_no_buku = $klasifikasi."0";
+            
+            $urutan = (int) substr($cek_no_buku, 1, 3);
+            $urutan++;
+            
+            $kode_klasifikasi = $klasifikasi;
+            $potong_kode = substr($kode_klasifikasi, 0, -2);
+            
+            $no_buku = $potong_kode . sprintf("%03s", $urutan);
+            // echo $no_buku;
+        } else {
+            $query2 = $mysqli->query("SELECT max(no_buku) AS kode_terbesar, kode_klasifikasi FROM buku WHERE kode_klasifikasi='$klasifikasi' ");
+            $row2 = $query2->fetch_assoc();
+    
+            $cek_no_buku = $row2['kode_terbesar'];
+    
+            $urutan = (int) substr($cek_no_buku, 1, 3);
+            $urutan++;
+        
+            $kode_klasifikasi = $row2['kode_klasifikasi'];
+            $potong_kode = substr($kode_klasifikasi, 0, -2);
+            
+            $no_buku = $potong_kode . sprintf("%03s", $urutan);
+            // echo $no_buku;
+        }
+    } else {
+        $no_buku = $nbk;
+    }
+
     $tkn = 'hectast2k21';
     $token = md5("$tkn:$id_buku");
 
     // var_dump($jenis_buku);
 
     if ($token_edit === $token) {
-        edit_buku($id_buku, $kode_isbn, $judul_buku, $pengarang, $penerbit, $tahun_terbit, $kategori_buku, $jenis_buku, $jumlah_buku, $lokasi_buku, $mysqli);
+        edit_buku($id_buku, $kode_isbn, $judul_buku, $kategori, $klasifikasi, $jumlah_buku, $harga_satuan, $pengarang, $penerbit, $tempat_terbit, $tahun_terbit, $jilid_edisi, $sumber_dana, $no_buku, $mysqli);
 
         flash('msg_edit_buku','Data Berhasil Diedit');
     }
@@ -179,14 +219,15 @@ if (isset($_POST['edit_jumlah_buku'])) {
 }
 
 if (isset($_POST['tambah_transaksi'])) {
-    $nisn = $_POST['nisn'];
+    $nisn = isset($_POST['nisn']) ? $_POST['nisn'] : '0';
+    $nuptk = isset($_POST['nuptk']) ? $_POST['nuptk'] : '0';
     $id_buku = $_POST['id_buku'];
     $lama_hari = $_POST['lama_hari'];
     $tgl_pinjam = date('Y-m-d');
     $tgl_jth = strtotime("+" . $lama_hari . "day", strtotime($tgl_pinjam));
     $jatuh_tempo = date('Y-m-d', $tgl_jth);
 
-    simpan_transaksi($nisn, $id_buku, $tgl_pinjam, $lama_hari, $jatuh_tempo, $mysqli);
+    simpan_transaksi($nisn,$nuptk, $id_buku, $tgl_pinjam, $lama_hari, $jatuh_tempo, $mysqli);
     flash('msg_simpan_pinjam', 'Data Peminjaman Berhasil Disimpan');
 }
 if (isset($_POST['kembali'])) {

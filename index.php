@@ -1,12 +1,12 @@
 <?php
-    session_start();
+session_start();
 
-    include 'app/env.php';
-    if (isset($_SESSION['unique_user'])) {
-        header('Location: beranda');
-        return false;
-    }
-    include 'app/aksi_login.php'
+include 'app/env.php';
+if (isset($_SESSION['unique_user'])) {
+    header('Location: beranda');
+    return false;
+}
+include 'app/aksi_login.php'
 ?>
 <!DOCTYPE html>
 <html dir="ltr">
@@ -35,9 +35,9 @@
         </div>
         <div class="auth-wrapper d-flex no-block justify-content-center align-items-center bg-dark">
             <div class="auth-box bg-dark border-top border-secondary">
-            <div class="text-center">
-                <img src="public/assets/images/tutwuri.png" alt="logo" class="img-fluid" width="25%">
-            </div>
+                <div class="text-center">
+                    <img src="public/assets/images/tutwuri.png" alt="logo" class="img-fluid" width="25%">
+                </div>
                 <div id="loginform">
                     <div class="text-center p-t-15 p-b-10">
                         <span class="db">
@@ -49,7 +49,12 @@
                             </h2>
                         </span>
                         <h4 class="text-light">SMP NEGERI 1 SUWAWA</h4>
-                        <small><p class="text-light">Jalan Natsir Mooduto, Desa Suwawa, Tingkohubu, Bone Bolango, Kabupaten Bone Bolango, Gorontalo</p></small>
+                        <small>
+                            <p class="text-light">
+                                Nomor Perpustakaan <u>7503031D1000002</u><br>
+                                Jl. Suwawa no. 56, desa tingkohubu, kec. Suwawa, Kab. Bone Bolango, Provinsi Gorontalo
+                            </p>
+                        </small>
                     </div>
                     <!-- Form -->
                     <form class="form-horizontal" id="loginform" action="" method="POST">
@@ -59,7 +64,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text text-dark" id="basic-addon1"><i class="ti-user"></i></span>
                                     </div>
-                                    <input type="text" name="nisn" class="form-control form-control-lg" placeholder="NISN" aria-label="Username" aria-describedby="basic-addon1" required="">
+                                    <input type="text" name="nisn" class="form-control form-control-lg" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" required="">
                                 </div>
                                 <div class="input-group mb-1">
                                     <div class="input-group-prepend">
@@ -89,7 +94,7 @@
     <script src="public/assets/libs/popper.js/dist/umd/popper.min.js"></script>
     <script src="public/assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
     <script>
-    $(".preloader").fadeOut();
+        $(".preloader").fadeOut();
     </script>
 </body>
 

@@ -44,42 +44,41 @@ $html = '
     <thead>
         <tr>
             <th>No</th>
-            <th>Kode Isbn</th>
+            <th>Kode ISBN</th>
+            <th>Kode Buku</th>
             <th>Judul Buku</th>
+            <th>Klasifikasi</th>
+            <th>Kategori</th>
             <th>Pengarang</th>
             <th>Penerbit</th>
             <th>Tahun Terbit</th>
-            <th>Kategori Buku</th>
-            <th>Jenis Buku</th>
-            <th>Jumlah Buku</th>
-            <th>Lokasi Buku</th>
+            <th>Jumlah</th>
         </td>
     </thead>
     <tbody>
 ';
 $nomor = 1;
 
-$query = $mysqli->query("SELECT * FROM buku JOIN mapel ON buku.jenis_buku = mapel.id_mapel WHERE kategori_buku ='$id'");
+$query = $mysqli->query("SELECT * FROM buku JOIN klasifikasi ON buku.kode_klasifikasi = klasifikasi.kode_klasifikasi WHERE kategori_buku ='$id'");
 while($row = $query->fetch_object()){
 if($row->kategori_buku == 1){
-    $kate = 'Klasifikasi';
+    $kate = 'Umum';
 }else{
-    $kate = 'Khusus Pelajaran';
+    $kate = 'Paket';
 }
 
 $html .= '
     <tr>
         <td>'.$nomor++.'</td>
         <td>'.$row->kode_isbn.'</td>
+        <td>'.$row->no_buku.'</td>
         <td>'.$row->judul_buku.'</td>
+        <td>'.$row->kode_klasifikasi.' - '.$row->klasifikasi.'</td>
+        <td>'.$kate.'</td>
         <td>'.$row->pengarang.'</td>
         <td>'.$row->penerbit.'</td>
         <td>'.$row->tahun_terbit.'</td>
-        <td>'.$kate.'</td>
-        <td>'.$row->nama_mapel.'</td>
-        <td>'.$row->jumlah_buku.'</td>
-        <td>'.$row->lokasi_buku.'</td>
-       
+        <td>'.$row->jumlah_buku.'</td>       
     </tr>
 ';
 }
@@ -89,10 +88,13 @@ $html .= '
 <div>Total Data : '.mysqli_num_rows($query).'
 ';
 
+$encryption = crypt("klasifikasi_umur", "heCTast");
+$file = $encryption.'.pdf';
+
 $mpdf->WriteHTML($html);
 
 // Output a PDF file directly to the browser
-$mpdf->Output();
+$mpdf->Output($file, 'I');
 
 
 ?>
