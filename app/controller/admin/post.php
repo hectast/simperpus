@@ -82,16 +82,48 @@ if (isset($_POST['hapus_anggota'])) {
 if (isset($_POST['simpan_buku'])) {
     $kode_isbn = $_POST['kode_isbn'];
     $judul_buku = $_POST['judul_buku'];
+    $kategori = $_POST['kategori'];
+    $klasifikasi = $_POST['klasifikasi'];
+    $jumlah_buku = $_POST['jumlah_buku'];
+    $harga_satuan = $_POST['harga_satuan'];
     $pengarang = $_POST['pengarang'];
     $penerbit = $_POST['penerbit'];
+    $tempat_terbit = $_POST['tempat_terbit'];
     $tahun_terbit = $_POST['tahun_terbit'];
-    $kategori_buku = $_POST['kategori_buku'];
-    $jenis_buku = $_POST['jenis_buku'];
-    $jumlah_buku = $_POST['jumlah_buku'];
-    $lokasi_buku = $_POST['lokasi_buku'];
+    $jilid_edisi = $_POST['jilid_edisi'];
+    $sumber_dana = $_POST['sumber_dana'];
     $tanggal_input = date("Y-m-d H:i:s");
 
-    simpan_buku($kode_isbn, $judul_buku, $pengarang, $penerbit, $tahun_terbit, $kategori_buku, $jenis_buku, $jumlah_buku, $lokasi_buku, $tanggal_input, $mysqli);
+    $query = $mysqli->query("SELECT * FROM buku WHERE kode_klasifikasi='$klasifikasi'");
+    
+    if (mysqli_num_rows($query) == 0) {
+        $cek_no_buku = $klasifikasi."0";
+        
+        $urutan = (int) substr($cek_no_buku, 1, 3);
+        $urutan++;
+        
+        $kode_klasifikasi = $klasifikasi;
+        $potong_kode = substr($kode_klasifikasi, 0, -2);
+        
+        $no_buku = $potong_kode . sprintf("%03s", $urutan);
+        // echo $no_buku;
+    } else {
+        $query2 = $mysqli->query("SELECT max(no_buku) AS kode_terbesar, kode_klasifikasi FROM buku WHERE kode_klasifikasi='$klasifikasi'");
+        $row2 = $query2->fetch_assoc();
+
+        $cek_no_buku = $row2['kode_terbesar'];
+
+        $urutan = (int) substr($cek_no_buku, 1, 3);
+        $urutan++;
+    
+        $kode_klasifikasi = $row2['kode_klasifikasi'];
+        $potong_kode = substr($kode_klasifikasi, 0, -2);
+        
+        $no_buku = $potong_kode . sprintf("%03s", $urutan);
+        // echo $no_buku;
+    }
+
+    simpan_buku($kode_isbn, $judul_buku, $kategori, $klasifikasi, $jumlah_buku, $harga_satuan, $pengarang, $penerbit, $tempat_terbit, $tahun_terbit, $jilid_edisi, $sumber_dana, $tanggal_input, $no_buku, $mysqli);
     flash('msg_simpan_buku', 'Data Berhasil Disimpan');
 }
 if (isset($_POST['hapus_buku'])) {
@@ -109,23 +141,62 @@ if (isset($_POST['edit_buku'])) {
     // $nomor_jenis_buku = $_POST['nomor_jenis_buku'];
     $token_edit = $_POST['token_edit'];
     $id_buku = $_POST['id_buku'];
+    $nbk = $_POST['no_buku'];
     $kode_isbn = $_POST['kode_isbn'];
     $judul_buku = $_POST['judul_buku'];
+    $kategori = $_POST['kategori'];
+    $klasifikasi = $_POST['klasifikasi'];
+    $jumlah_buku = $_POST['jumlah_buku'];
+    $harga_satuan = $_POST['harga_satuan'];
     $pengarang = $_POST['pengarang'];
     $penerbit = $_POST['penerbit'];
+    $tempat_terbit = $_POST['tempat_terbit'];
     $tahun_terbit = $_POST['tahun_terbit'];
-    $kategori_buku = $_POST['kategori_buku'];
-    // $jenis_buku = $_POST['jenis_buku'.$nomor_jenis_buku];
-    $jenis_buku = $_POST['jenis_buku'];
-    $jumlah_buku = $_POST['jumlah_buku'];
-    $lokasi_buku = $_POST['lokasi_buku'];
+    $jilid_edisi = $_POST['jilid_edisi'];
+    $sumber_dana = $_POST['sumber_dana'];
+
+    $cek_kode = $mysqli->query("SELECT * FROM buku WHERE kode_klasifikasi='$klasifikasi' AND no_buku='$nbk'");
+
+    if (mysqli_num_rows($cek_kode) == 0) {
+        $query = $mysqli->query("SELECT * FROM buku WHERE kode_klasifikasi='$klasifikasi'");
+    
+        if (mysqli_num_rows($query) == 0) {
+            $cek_no_buku = $klasifikasi."0";
+            
+            $urutan = (int) substr($cek_no_buku, 1, 3);
+            $urutan++;
+            
+            $kode_klasifikasi = $klasifikasi;
+            $potong_kode = substr($kode_klasifikasi, 0, -2);
+            
+            $no_buku = $potong_kode . sprintf("%03s", $urutan);
+            // echo $no_buku;
+        } else {
+            $query2 = $mysqli->query("SELECT max(no_buku) AS kode_terbesar, kode_klasifikasi FROM buku WHERE kode_klasifikasi='$klasifikasi' ");
+            $row2 = $query2->fetch_assoc();
+    
+            $cek_no_buku = $row2['kode_terbesar'];
+    
+            $urutan = (int) substr($cek_no_buku, 1, 3);
+            $urutan++;
+        
+            $kode_klasifikasi = $row2['kode_klasifikasi'];
+            $potong_kode = substr($kode_klasifikasi, 0, -2);
+            
+            $no_buku = $potong_kode . sprintf("%03s", $urutan);
+            // echo $no_buku;
+        }
+    } else {
+        $no_buku = $nbk;
+    }
+
     $tkn = 'hectast2k21';
     $token = md5("$tkn:$id_buku");
 
     // var_dump($jenis_buku);
 
     if ($token_edit === $token) {
-        edit_buku($id_buku, $kode_isbn, $judul_buku, $pengarang, $penerbit, $tahun_terbit, $kategori_buku, $jenis_buku, $jumlah_buku, $lokasi_buku, $mysqli);
+        edit_buku($id_buku, $kode_isbn, $judul_buku, $kategori, $klasifikasi, $jumlah_buku, $harga_satuan, $pengarang, $penerbit, $tempat_terbit, $tahun_terbit, $jilid_edisi, $sumber_dana, $no_buku, $mysqli);
 
         flash('msg_edit_buku','Data Berhasil Diedit');
     }

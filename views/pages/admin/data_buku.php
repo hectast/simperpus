@@ -85,7 +85,10 @@ include 'app/controller/admin/post.php';
                                     <thead class="thead-light">
                                         <tr>
                                             <th>No</th>
+                                            <th>Kode Buku</th>
                                             <th>Judul Buku</th>
+                                            <th>Klasifikasi</th>
+                                            <th>Kategori</th>
                                             <th>Pengarang</th>
                                             <th>Penerbit</th>
                                             <th>Jumlah</th>
@@ -117,15 +120,45 @@ include 'app/controller/admin/post.php';
                 </div>
                 <form action="" method="post">
                     <div class="modal-body">
-                        <div class="form-group">
-                            <label>Kode ISBN</label>
-                            <input type="text" class="form-control" name="kode_isbn" placeholder="Masukkan Kode ISBN" required>
-                        </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
+                                    <label>Kode ISBN</label>
+                                    <input type="text" class="form-control" name="kode_isbn" placeholder="Masukkan Kode ISBN" required>
+                                </div>
+                                <div class="form-group">
                                     <label>Judul Buku</label>
                                     <input type="text" class="form-control" name="judul_buku" placeholder="Masukkan Judul Buku" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Kategori</label>
+                                    <select name="kategori" class="form-control">
+                                        <option value="" hidden>-Pilih Kategori-</option>
+                                        <option value="1">Umum</option>
+                                        <option value="0">Paket</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Klasifikasi</label>
+                                    <select name="klasifikasi" class="form-control">
+                                        <option value="" hidden>-Pilih Klasifikasi-</option>
+                                        <?php
+                                        $sql_klasif = $mysqli->query("SELECT * FROM klasifikasi");
+                                        while ($row_klasif = $sql_klasif->fetch_assoc()) {
+                                            echo "
+                                                    <option value='$row_klasif[kode_klasifikasi]'>$row_klasif[klasifikasi]</option>
+                                                ";
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Jumlah</label>
+                                    <input type="number" class="form-control" name="jumlah_buku" placeholder="Masukkan Jumlah Buku" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Harga Satuan</label>
+                                    <input type="number" class="form-control" name="harga_satuan" placeholder="Masukkan Harga Satuan" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -133,46 +166,25 @@ include 'app/controller/admin/post.php';
                                     <label>Pengarang</label>
                                     <input type="text" class="form-control" name="pengarang" placeholder="Masukkan Pengarang" required>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">                        
                                 <div class="form-group">
                                     <label>Penerbit</label>
                                     <input type="text" class="form-control" name="penerbit" placeholder="Masukkan Penerbit" required>
                                 </div>
-                            </div>
-                            <div class="col-md-6">                        
+                                <div class="form-group">
+                                    <label>Tempat Terbit</label>
+                                    <input type="text" class="form-control" name="tempat_terbit" placeholder="Masukkan Tempat Terbit" required>
+                                </div>
                                 <div class="form-group">
                                     <label>Tahun Terbit</label>
                                     <input type="text" class="yearpicker form-control" name="tahun_terbit" placeholder="Masukkan Tahun Terbit" required>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="form-group" id="formBuku">
-                            <label>Kategori Buku</label>
-                            <select class="form-control" name="kategori_buku" style="width: 100%;" id="optionBuku">
-                                <option hidden>Pilih Kategori Buku</option>
-                                <option value="1">Klasifikasi</option>
-                                <option value="0">Khusus Pelajaran</option>
-                            </select>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">                        
                                 <div class="form-group">
-                                    <label>Jumlah Buku</label>
-                                    <input type="number" class="form-control" name="jumlah_buku" placeholder="Masukkan Jumlah Buku" required>
+                                    <label>Jilid Edisi</label>
+                                    <input type="text" class="form-control" name="jilid_edisi" placeholder="Masukkan Jilid Edisi" required>
                                 </div>
-                            </div>
-                            <div class="col-md-6">                        
                                 <div class="form-group">
-                                    <label>Lokasi Buku</label>
-                                    <select class="form-control" name="lokasi_buku" style="width: 100%;">
-                                        <option hidden>Pilih Lokasi Buku</option>
-                                        <option value="Rak 1">Rak 1</option>
-                                        <option value="Rak 2">Rak 2</option>
-                                        <option value="Rak 3">Rak 3</option>
-                                    </select>
+                                    <label>Sumber Dana</label>
+                                    <input type="text" class="form-control" name="sumber_dana" placeholder="Masukkan Sumber Dana" required>
                                 </div>
                             </div>
                         </div>
@@ -186,8 +198,8 @@ include 'app/controller/admin/post.php';
         </div>
     </div>
 
-     <!-- Modal -->
-     <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- Modal -->
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -198,14 +210,14 @@ include 'app/controller/admin/post.php';
                 </div>
                 <form action="cetak_buku" method="post">
                     <div class="modal-body">
-                     <div class="form-group">
-                        <label for="">Pilih Kategori</label>
-                        <select name="kat" class="form-control">
-                            <option value="" hidden>-Pilih Kategori-</option>
-                            <option value="1">Klasifikasi</option>
-                            <option value="0">Khusus Pelajaran</option>
-                        </select>
-                     </div>
+                        <div class="form-group">
+                            <label for="">Pilih Kategori</label>
+                            <select name="kat" class="form-control">
+                                <option value="" hidden>-Pilih Kategori-</option>
+                                <option value="1">Umum</option>
+                                <option value="0">Paket</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>

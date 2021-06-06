@@ -92,7 +92,7 @@ function tampil_anggota($mysqli)
     $result = $query->get_result();
     while ($row = $result->fetch_object()) {
     ?>
-        <option value="<?= $row->nisn ?>"><?=$row->nisn ?> - <?= $row->nama_lengkap ?></option>
+        <option value="<?= $row->nisn ?>"><?= $row->nisn ?> - <?= $row->nama_lengkap ?></option>
     <?php
     }
 }
@@ -224,7 +224,7 @@ function  tampil_data_anggota($mysqli)
                     </div>
                     <div class="modal-footer">
                         <?php include 'base_url.php'; ?>
-                        <a href="<?= $base_url; ?>app/controller/cetak/cetak_kartu_anggota.php?id=<?= $row->nisn;?>" target="_blank" class="btn btn-primary"><i class="fas fa-print"></i> Cetak</a>
+                        <a href="<?= $base_url; ?>app/controller/cetak/cetak_kartu_anggota.php?id=<?= $row->nisn; ?>" target="_blank" class="btn btn-primary"><i class="fas fa-print"></i> Cetak</a>
                     </div>
                 </div>
             </div>
@@ -315,7 +315,7 @@ function  tampil_data_anggota($mysqli)
     }
 }
 
-function simpan_anggota($nisn, $nm_lengkap,$no_hp, $jk, $tempat_lahir, $tanggal_lahir, $kelas, $tahun, $media, $encrypt_pass, $mysqli)
+function simpan_anggota($nisn, $nm_lengkap, $no_hp, $jk, $tempat_lahir, $tanggal_lahir, $kelas, $tahun, $media, $encrypt_pass, $mysqli)
 {
     $query = $mysqli->prepare("INSERT INTO anggota values ('$nisn','$nm_lengkap','$no_hp','$tempat_lahir','$tanggal_lahir','$jk','$kelas','$tahun','$media','$encrypt_pass')");
     $query->execute();
@@ -351,7 +351,7 @@ function tampil_buku($mysqli)
 function tampil_data_buku($mysqli)
 {
     $nomor = 1;
-    $query = $mysqli->prepare("SELECT * FROM buku");
+    $query = $mysqli->prepare("SELECT * FROM buku JOIN klasifikasi ON buku.kode_klasifikasi = klasifikasi.kode_klasifikasi");
     $query->execute();
     $result = $query->get_result();
     while ($row = $result->fetch_object()) {
@@ -361,7 +361,18 @@ function tampil_data_buku($mysqli)
     ?>
         <tr>
             <td><?= $nomor; ?></td>
+            <td><?= $row->no_buku; ?></td>
             <td><?= $row->judul_buku; ?></td>
+            <td><?= $row->kode_klasifikasi; ?> - <?= $row->klasifikasi; ?></td>
+            <td>
+                <?php if ($row->kategori_buku == 1) : ?>
+                    Umum
+                <?php elseif ($row->kategori_buku == 0) : ?>
+                    Paket
+                <?php else : ?>
+                    -
+                <?php endif; ?>
+            </td>
             <td><?= $row->pengarang; ?></td>
             <td><?= $row->penerbit; ?></td>
             <td><?= $row->jumlah_buku; ?> <span class="text-primary" style="cursor: pointer;" data-toggle="modal" data-target="#tambahJumlahModal<?= $id ?>"><i class="fa fa-plus-circle m-t-5"></i></span></td>
@@ -390,117 +401,86 @@ function tampil_data_buku($mysqli)
                             <input type="hidden" name="nomor_jenis_buku" value="<?= $nomor; ?>">
                             <input type="hidden" name="token_edit" value="<?= $token ?>">
                             <input type="hidden" name="id_buku" value="<?= $id ?>">
-                            <div class="form-group">
-                                <label>Kode ISBN</label>
-                                <input type="text" class="form-control" name="kode_isbn" placeholder="Masukkan Kode ISBN" value="<?= $row->kode_isbn ?>" required>
-                            </div>
+                            <input type="hidden" name="no_buku" value="<?= $row->no_buku; ?>">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        <label>Kode ISBN</label>
+                                        <input type="text" class="form-control" name="kode_isbn" placeholder="Masukkan Kode ISBN" value="<?= $row->kode_isbn; ?>" required>
+                                    </div>
+                                    <div class="form-group">
                                         <label>Judul Buku</label>
-                                        <input type="text" class="form-control" name="judul_buku" placeholder="Masukkan Judul Buku" value="<?= $row->judul_buku ?>" required>
+                                        <input type="text" class="form-control" name="judul_buku" placeholder="Masukkan Judul Buku" value="<?= $row->judul_buku; ?>" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Kategori</label>
+                                        <select name="kategori" class="form-control">
+                                            <option value="" hidden>-Pilih Kategori-</option>
+                                            <?php if ($row->kategori_buku == 1) : ?>
+                                            <option value="1" selected>Umum</option>
+                                            <option value="0">Paket</option>
+                                            <?php elseif ($row->kategori_buku == 0) : ?>
+                                            <option value="1">Umum</option>
+                                            <option value="0" selected>Paket</option>
+                                            <?php else : ?>
+                                            <option value="1">Umum</option>
+                                            <option value="0">Paket</option>
+                                            <?php endif; ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Klasifikasi</label>
+                                        <select name="klasifikasi" class="form-control">
+                                            <option value="" hidden>-Pilih Klasifikasi-</option>
+                                            <?php
+                                            $sql_klasif = $mysqli->query("SELECT * FROM klasifikasi");
+                                            while ($row_klasif = $sql_klasif->fetch_assoc()) {
+                                                if ($row_klasif['kode_klasifikasi'] == $row->kode_klasifikasi) {
+                                                    echo "
+                                                        <option value='$row_klasif[kode_klasifikasi]' selected>$row_klasif[klasifikasi]</option>
+                                                    ";
+                                                } else {
+                                                    echo "
+                                                        <option value='$row_klasif[kode_klasifikasi]'>$row_klasif[klasifikasi]</option>
+                                                    ";
+                                                }
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Jumlah</label>
+                                        <input type="number" class="form-control" name="jumlah_buku" placeholder="Masukkan Jumlah Buku" value="<?= $row->jumlah_buku; ?>" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Harga Satuan</label>
+                                        <input type="number" class="form-control" name="harga_satuan" placeholder="Masukkan Harga Satuan" value="<?= $row->harga_satuan; ?>" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Pengarang</label>
-                                        <input type="text" class="form-control" name="pengarang" placeholder="Masukkan Pengarang" value="<?= $row->pengarang ?>" required>
+                                        <input type="text" class="form-control" name="pengarang" placeholder="Masukkan Pengarang" value="<?= $row->pengarang; ?>" required>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Penerbit</label>
-                                        <input type="text" class="form-control" name="penerbit" placeholder="Masukkan Penerbit" value="<?= $row->penerbit ?>" required>
+                                        <input type="text" class="form-control" name="penerbit" placeholder="Masukkan Penerbit" value="<?= $row->penerbit; ?>" required>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Tempat Terbit</label>
+                                        <input type="text" class="form-control" name="tempat_terbit" placeholder="Masukkan Tempat Terbit" value="<?= $row->tempat_terbit; ?>" required>
+                                    </div>
                                     <div class="form-group">
                                         <label>Tahun Terbit</label>
-                                        <input type="number" class="form-control" name="tahun_terbit" placeholder="Masukkan Tahun Terbit" value="<?= $row->tahun_terbit ?>" required>
+                                        <input type="text" class="form-control" name="tahun_terbit" placeholder="Masukkan Tahun Terbit" value="<?= $row->tahun_terbit; ?>" required>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="row" class="showKJ">
-                                <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Kategori</label>
-                                        <input type="text" class="form-control" name="kategori_buku" value="<?= $row->kategori_buku == 1 ? "Klasifikasi" : "Mata Pelajaran"; ?>" required readonly>
+                                        <label>Jilid Edisi</label>
+                                        <input type="text" class="form-control" name="jilid_edisi" placeholder="Masukkan Jilid Edisi" value="<?= $row->jilid_edisi; ?>" required>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Jenis Buku</label>
-                                        <?php
-                                        if ($row->kategori_buku == 1 && !empty($row->jenis_buku)) {
-                                            $queryKategK = $mysqli->prepare("SELECT * FROM mapel WHERE id_mapel='{$row->jenis_buku}' AND klasifikasi=1");
-                                            $queryKategK->execute();
-                                            $resultKategK = $queryKategK->get_result();
-                                            $rowKategK = $resultKategK->fetch_object();
-                                            echo "
-                                                    <input type='hidden' class='form-control' name='jenis_buku' value='{$rowKategK->id_mapel}' required readonly>
-                                                    <input type='text' class='form-control' value='{$rowKategK->nama_mapel}' required readonly>
-                                                ";
-                                        } else if ($row->kategori_buku == 0 && !empty($row->jenis_buku)) {
-                                            $queryKategK = $mysqli->prepare("SELECT * FROM mapel WHERE id_mapel='{$row->jenis_buku}'");
-                                            $queryKategK->execute();
-                                            $resultKategK = $queryKategK->get_result();
-                                            $rowKategK = $resultKategK->fetch_object();
-                                            echo "
-                                                    <input type='hidden' class='form-control' name='jenis_buku' value='{$rowKategK->id_mapel}' required readonly>
-                                                    <input type='text' class='form-control' value='{$rowKategK->nama_mapel}' required readonly>
-                                                ";
-                                        } else {
-                                            echo "
-                                                    <input type='text' class='form-control' name='jenis_buku' value='-' required readonly>
-                                                ";
-                                        }
-                                        ?>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Jumlah Buku</label>
-                                        <input type="number" class="form-control" name="jumlah_buku" placeholder="Masukkan Jumlah Buku" value="<?= $row->jumlah_buku ?>" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Lokasi Buku</label>
-                                        <select class="form-control" name="lokasi_buku" style="width: 100%;">
-                                            <option hidden>Pilih Lokasi Buku</option>
-                                            <?php
-                                            if ($row->lokasi_buku == "Rak 1") {
-                                                echo "
-                                                    <option value='Rak 1' selected>Rak 1</option>
-                                                    <option value='Rak 2'>Rak 2</option>
-                                                    <option value='Rak 3'>Rak 3</option>
-                                                ";
-                                            } else if ($row->lokasi_buku == "Rak 2") {
-                                                echo "
-                                                    <option value='Rak 1'>Rak 1</option>
-                                                    <option value='Rak 2' selected>Rak 2</option>
-                                                    <option value='Rak 3'>Rak 3</option>
-                                                ";
-                                            } else if ($row->lokasi_buku == "Rak 3") {
-                                                echo "
-                                                    <option value='Rak 1'>Rak 1</option>
-                                                    <option value='Rak 2'>Rak 2</option>
-                                                    <option value='Rak 3' selected>Rak 3</option>
-                                                ";
-                                            } else {
-                                                echo "
-                                                    <option value='Rak 1'>Rak 1</option>
-                                                    <option value='Rak 2'>Rak 2</option>
-                                                    <option value='Rak 3'>Rak 3</option>
-                                                ";
-                                            }
-                                            ?>
-                                        </select>
+                                        <label>Sumber Dana</label>
+                                        <input type="text" class="form-control" name="sumber_dana" placeholder="Masukkan Sumber Dana" value="<?= $row->sumber_dana; ?>" required>
                                     </div>
                                 </div>
                             </div>
@@ -510,67 +490,69 @@ function tampil_data_buku($mysqli)
                             <button type="submit" name="edit_buku" class="btn btn-primary"><i class="fas fa-save"></i> Simpan Perubahan </button>
                         </div>
                     </form>
-                    </div>
                 </div>
             </div>
-            <!-- modal -->
-            <!-- modal -->
-            <div class="modal fade" id="tambahJumlahModal<?= $id ?>" tabindex="-1" role="dialog" aria-labelledby="tambahJumlahModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Edit Jumlah Buku</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+        </div>
+        <!-- modal -->
+        <!-- modal -->
+        <div class="modal fade" id="tambahJumlahModal<?= $id ?>" tabindex="-1" role="dialog" aria-labelledby="tambahJumlahModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Jumlah Buku</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="" method="post">
+                        <div class="modal-body">
+                            <input type="hidden" name="token_edit_jumlah" value="<?= $token ?>">
+                            <input type="hidden" name="id_buku" value="<?= $id ?>">
+                            <div class="form-group">
+                                <label>Jumlah Buku Sebelumnya</label>
+                                <input type="number" class="form-control" name="jumlah_buku_sebelumnya" value="<?= $row->jumlah_buku ?>" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Tambah Jumlah Buku</label>
+                                <input type="number" class="form-control" name="jumlah_buku" placeholder="Masukkan Jumlah Buku" required>
+                            </div>
                         </div>
-                        <form action="" method="post">
-                            <div class="modal-body">
-                                <input type="hidden" name="token_edit_jumlah" value="<?= $token ?>">
-                                <input type="hidden" name="id_buku" value="<?= $id ?>">
-                                <div class="form-group">
-                                    <label>Jumlah Buku Sebelumnya</label>
-                                    <input type="number" class="form-control" name="jumlah_buku_sebelumnya" value="<?= $row->jumlah_buku ?>" readonly>
-                                </div>
-                                <div class="form-group">
-                                    <label>Tambah Jumlah Buku</label>
-                                    <input type="number" class="form-control" name="jumlah_buku" placeholder="Masukkan Jumlah Buku" required>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                                <button type="submit" name="edit_jumlah_buku" class="btn btn-primary"><i class="fas fa-save"></i> Simpan </button>
-                            </div>
-                        </form>
-                    </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                            <button type="submit" name="edit_jumlah_buku" class="btn btn-primary"><i class="fas fa-save"></i> Simpan </button>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <!-- modal -->
+        </div>
+        <!-- modal -->
     <?php
-            $nomor++;
-        }
+        $nomor++;
     }
-    function simpan_buku($kode_isbn, $judul_buku, $pengarang, $penerbit, $tahun_terbit, $kategori_buku, $jenis_buku, $jumlah_buku, $lokasi_buku, $tanggal_input, $mysqli)
-    {
-        $query = $mysqli->prepare("INSERT INTO buku (kode_isbn, judul_buku, pengarang, penerbit, tahun_terbit, kategori_buku, jenis_buku, jumlah_buku, lokasi_buku, tanggal_input) 
-                                            VALUES ('$kode_isbn', '$judul_buku', '$pengarang', '$penerbit', '$tahun_terbit', '$kategori_buku', '$jenis_buku', '$jumlah_buku', '$lokasi_buku', '$tanggal_input')");
-        $query->execute();
-    }
-    function hapus_buku($id_buku, $mysqli)
-    {
-        $query = $mysqli->prepare("DELETE FROM buku WHERE id_buku='$id_buku'");
-        $query->execute();
-    }
-    function edit_buku($id_buku, $kode_isbn, $judul_buku, $pengarang, $penerbit, $tahun_terbit, $kategori_buku, $jenis_buku, $jumlah_buku, $lokasi_buku, $mysqli)
-    {
-        $query = $mysqli->prepare("UPDATE buku SET kode_isbn='$kode_isbn', judul_buku='$judul_buku', pengarang='$pengarang', penerbit='$penerbit', tahun_terbit='$tahun_terbit',
-                                            kategori_buku='$kategori_buku', jenis_buku='$jenis_buku', jumlah_buku='$jumlah_buku', lokasi_buku='$lokasi_buku' WHERE id_buku='$id_buku'");
-        $query->execute();
-    }
+}
+function simpan_buku($kode_isbn, $judul_buku, $kategori, $klasifikasi, $jumlah_buku, $harga_satuan, $pengarang, $penerbit, $tempat_terbit, $tahun_terbit, $jilid_edisi, $sumber_dana, $tanggal_input, $no_buku, $mysqli)
+{
+    $query = $mysqli->prepare("INSERT INTO buku (kode_isbn, no_buku, judul_buku, pengarang, penerbit, tahun_terbit, tempat_terbit, kategori_buku, kode_klasifikasi, jilid_edisi, jumlah_buku, sumber_dana, harga_satuan, tanggal_input) 
+                                            VALUES ('$kode_isbn', '$no_buku', '$judul_buku', '$pengarang', '$penerbit', '$tahun_terbit', '$tempat_terbit', '$kategori', '$klasifikasi', '$jilid_edisi', '$jumlah_buku', '$sumber_dana', '$harga_satuan', '$tanggal_input')");
+    $query->execute();
+}
+function hapus_buku($id_buku, $mysqli)
+{
+    $query = $mysqli->prepare("DELETE FROM buku WHERE id_buku='$id_buku'");
+    $query->execute();
+}
+function edit_buku($id_buku, $kode_isbn, $judul_buku, $kategori, $klasifikasi, $jumlah_buku, $harga_satuan, $pengarang, $penerbit, $tempat_terbit, $tahun_terbit, $jilid_edisi, $sumber_dana, $no_buku, $mysqli)
+{
+    $query = $mysqli->prepare("UPDATE buku SET kode_isbn='$kode_isbn', no_buku='$no_buku', judul_buku='$judul_buku', pengarang='$pengarang', penerbit='$penerbit', tahun_terbit='$tahun_terbit',
+                                            tempat_terbit='$tempat_terbit' , kategori_buku='$kategori', kode_klasifikasi='$klasifikasi', jilid_edisi='$jilid_edisi', jumlah_buku='$jumlah_buku', 
+                                            sumber_dana='$sumber_dana', harga_satuan='$harga_satuan' WHERE id_buku='$id_buku'");
+    $query->execute();
+}
 
 
 //function transaksi
-function simpan_transaksi($nisn,$nuptk,$id_buku,$tgl_pinjam,$lama_hari,$jatuh_tempo,$mysqli){
+function simpan_transaksi($nisn, $nuptk, $id_buku, $tgl_pinjam, $lama_hari, $jatuh_tempo, $mysqli)
+{
     $query = $mysqli->prepare("INSERT INTO transaksi VALUES('','$id_buku','$nisn',$nuptk,'$tgl_pinjam','$lama_hari','$jatuh_tempo','','')");
     $query->execute();
 
@@ -578,8 +560,9 @@ function simpan_transaksi($nisn,$nuptk,$id_buku,$tgl_pinjam,$lama_hari,$jatuh_te
     $row_buku = $q_update->fetch_assoc();
     $update = $mysqli->prepare("UPDATE buku SET jumlah_buku = '$row_buku[jumlah_buku]' - 1 WHERE id_buku = '$id_buku'");
     $update->execute();
-    }
-function kembali($id_buku, $id_transaksi, $tgl_kembali,$denda,$mysqli){
+}
+function kembali($id_buku, $id_transaksi, $tgl_kembali, $denda, $mysqli)
+{
     $query = $mysqli->prepare("UPDATE transaksi SET tgl_kembali = '$tgl_kembali', denda = '$denda' WHERE id_transaksi = '$id_transaksi'");
     $query->execute();
 
@@ -588,73 +571,75 @@ function kembali($id_buku, $id_transaksi, $tgl_kembali,$denda,$mysqli){
     $update = $mysqli->prepare("UPDATE buku SET jumlah_buku = '$row_buku[jumlah_buku]' + 1 WHERE id_buku = '$id_buku'");
     $update->execute();
 }
-function tampil_data_pinjam($mysqli){
-    $nomor  =1;
+function tampil_data_pinjam($mysqli)
+{
+    $nomor  = 1;
     $query = $mysqli->prepare('SELECT * FROM transaksi JOIN buku ON transaksi.id_buku = buku.id_buku');
     $query->execute();
     $result = $query->get_result();
-    while($row = $result->fetch_object()){
+    while ($row = $result->fetch_object()) {
     ?>
         <tr>
             <td><?= $nomor++ ?></td>
             <td><?= $row->judul_buku; ?></td>
             <td>
-                <?php 
-                    if($row->nisn == '0'){
-                        $query_guru = $mysqli->query("SELECT * FROM guru WHERE nuptk ='$row->nuptk'");
-                        $row_guru = $query_guru->fetch_object();
-                        echo $row_guru->nama_lengkap;
-                    }else if($row->nuptk =='0'){
-                        $query_anggota = $mysqli->query("SELECT * FROM anggota WHERE nisn ='$row->nisn'");
-                        $row_anggota = $query_anggota->fetch_object();
-                        echo $row_anggota->nama_lengkap;
-                    }
+                <?php
+                if ($row->nisn == '0') {
+                    $query_guru = $mysqli->query("SELECT * FROM guru WHERE nuptk ='$row->nuptk'");
+                    $row_guru = $query_guru->fetch_object();
+                    echo $row_guru->nama_lengkap;
+                } else if ($row->nuptk == '0') {
+                    $query_anggota = $mysqli->query("SELECT * FROM anggota WHERE nisn ='$row->nisn'");
+                    $row_anggota = $query_anggota->fetch_object();
+                    echo $row_anggota->nama_lengkap;
+                }
                 ?>
             </td>
             <td><?= tgl_indo($row->tgl_pinjam) ?></td>
             <td><?= tgl_indo($row->tgl_jatuh_tempo) ?></td>
             <td>
-            <?php 
-                if($row->tgl_kembali == 0){
+                <?php
+                if ($row->tgl_kembali == 0) {
                     echo '<div class="text-danger">Blm Dikembalikan</div>';
-                }else{
+                } else {
                     echo tgl_indo($row->tgl_kembali);
                 }
-            ?>
+                ?>
             </td>
             <td>
-            <?php
-                 if($row->tgl_kembali == 0){
+                <?php
+                if ($row->tgl_kembali == 0) {
                     echo '<div class="badge badge-danger">Blm Dikembalikan</div>';
-                }else{
+                } else {
                     echo '<div class="badge badge-success">Sdh Dikembalikan</div>';
                 }
-            ?>
+                ?>
             </td>
             <td>
-            <?php
-                 if($row->denda == 0){
+                <?php
+                if ($row->denda == 0) {
                     echo '-';
-                }else{
-                    echo 'Denda Rp. '; echo number_format($row->denda);
+                } else {
+                    echo 'Denda Rp. ';
+                    echo number_format($row->denda);
                 }
-            ?>
+                ?>
             </td>
             <td>
-            <?php if($row->tgl_kembali == 0): ?>
-            <form action="" method="post">
-                <input type="hidden" name="id_buku" value="<?= $row->id_buku ?>">
-                <input type="hidden" name="id_transaksi" value="<?= $row->id_transaksi ?>">
-                <input type="hidden" name="tgl_pinjam" value="<?= $row->tgl_pinjam ?>">
-                <input type="hidden" name="lama" value="<?= $row->lama ?>">
-                <button name="kembali" type="submit" class="btn btn-sm btn-success"><i class="fas fa-exchange-alt"></i> Kembalikan</button>
-            </form>
-            <?php else: ?>
-                <div>-</div>
-            <?php endif ?>                
+                <?php if ($row->tgl_kembali == 0) : ?>
+                    <form action="" method="post">
+                        <input type="hidden" name="id_buku" value="<?= $row->id_buku ?>">
+                        <input type="hidden" name="id_transaksi" value="<?= $row->id_transaksi ?>">
+                        <input type="hidden" name="tgl_pinjam" value="<?= $row->tgl_pinjam ?>">
+                        <input type="hidden" name="lama" value="<?= $row->lama ?>">
+                        <button name="kembali" type="submit" class="btn btn-sm btn-success"><i class="fas fa-exchange-alt"></i> Kembalikan</button>
+                    </form>
+                <?php else : ?>
+                    <div>-</div>
+                <?php endif ?>
             </td>
         </tr>
-    <?php
+<?php
     }
 }
 function edit_jumlah_buku($id_buku, $total_buku_sekarang, $mysqli)
