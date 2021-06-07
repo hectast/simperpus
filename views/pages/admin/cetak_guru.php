@@ -36,15 +36,26 @@ $mpdf = new \Mpdf\Mpdf([
 
 
 $html = '
+<style>
+.head {
+    margin-bottom: 6rem;
+}
+
+.nama {
+    text-decoration: underline;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+</style>
 <div style="text-align:center;">
-<h3>LAPORAN DATA ANGGOTA PERPUSTAKAAN</h3>
+<h3>LAPORAN DATA GURU PERPUSTAKAAN</h3>
 <h4>SMP NEGERI 1 SUWAWA</h4>
 </div>
-<table border="1" style="border-collapse:collapse; width:100%;" cellpadding="8">
+<table border="1" style="border-collapse:collapse; width:100%;font-size:0.8rem;" cellpadding="8">
     <thead>
         <tr>
             <th>No</th>
-            <th>Nisn</th>
+            <th>NUPTK</th>
             <th>Nama Lengkap</th>
             <th>No HP</th>
             <th>Tempat - Tanggal Lahir</th>
@@ -78,7 +89,19 @@ $html .= '
 $html .= '
 </tbody>
 </table><br>
-<div>Total Data : '.mysqli_num_rows($query).'
+<div>Total Data : '.mysqli_num_rows($query).'</div>
+<div style="width: 100%;text-align: center;margin-top: 5rem;">
+    <div style="width: 50%;float: left;">
+        <p class="head"><b>Kepala Perpus SMP Negeri 1 Suwawa</b></p>
+        <p class="nama">Wiwin S. Maksud, S.Pd</p>
+        <span class="nip">NIP. 198001022007012027</span>
+    </div>
+    <div style="width: 50%;float: left;">
+        <p class="head"><b>Kepala SMP Negeri 1 Suwawa</b></p>
+        <p class="nama">Pitria Deu, S.Pd, M.Si</p>
+        <span class="nip">NIP. 197310261999032008</span>
+    </div>
+</div>
 ';
 
 $mpdf->WriteHTML($html);

@@ -40,13 +40,14 @@ if (isset($_POST['simpan_anggota'])) {
     $tahun = $_POST['tahun_masuk'];
     $no_hp = $_POST['no_hp'];
     $pass = $nisn;
+    $username = $nisn;
     $encrypt_pass = password_hash($pass, PASSWORD_DEFAULT);
     $media = upload_gambar();
     if (!$media) {
         return false;
     }
 
-    simpan_anggota($nisn, $nm_lengkap,$no_hp, $jk, $tempat_lahir, $tanggal_lahir, $kelas, $tahun, $media, $encrypt_pass, $mysqli);
+    simpan_anggota($nisn, $nm_lengkap,$no_hp, $jk, $tempat_lahir, $tanggal_lahir, $kelas, $tahun, $media, $encrypt_pass, $username, $mysqli);
     flash('msg_simpan_anggota', 'Data Anggota Berhasil Disimpan');
 }
 
@@ -213,7 +214,7 @@ if (isset($_POST['edit_jumlah_buku'])) {
     // var_dump($jenis_buku);
 
     if ($token_edit_jumlah === $token) {
-        edit_jumlah_buku($id_buku, $total_buku_sekarang, $mysqli);
+        edit_jumlah_buku($id_buku, $jumlah_buku, $total_buku_sekarang, $mysqli);
         flash('msg_edit_jumlah_buku','Data Berhasil Diedit');
     }
 }
@@ -257,4 +258,44 @@ if (isset($_POST['kembali'])) {
     kembali($id_buku, $id_transaksi, $tgl_kembali,$denda,$mysqli);
     flash('msg_kembali','Buku Berhasil Dikembalikan');
 
+}
+
+if (isset($_POST['simpan_non_buku'])) {
+    $nama = $_POST['nama'];
+    $jumlah = $_POST['jumlah'];
+    $tanggal_masuk = $_POST['tanggal_masuk'];
+
+    simpan_non_buku($nama, $jumlah, $tanggal_masuk, $mysqli);
+    flash('msg_simpan_non_buku','Data Berhasil Disimpan');
+}
+
+if (isset($_POST['edit_non_buku'])) {
+    $token_edit = $_POST['token_edit'];
+    $id = $_POST['id'];
+
+    $nama = $_POST['nama'];
+    $jumlah = $_POST['jumlah'];
+    $tanggal_masuk = $_POST['tanggal_masuk'];
+
+    $tkn = 'hectast2k21';
+    $token = md5("$tkn:$id");
+
+    // var_dump($jenis_buku);
+
+    if ($token_edit === $token) {
+        edit_non_buku($id, $nama, $jumlah, $tanggal_masuk, $mysqli);
+        flash('msg_edit_non_buku','Data Berhasil Diedit');
+    }
+}
+
+if (isset($_POST['hapus_non_buku'])) {
+    $token_hapus = $_POST['token_hapus'];
+    $id = $_POST['id'];
+    $tkn = 'hectast2k21';
+    $token = md5("$tkn:$id");
+
+    if ($token_hapus === $token) {
+        hapus_non_buku($id, $mysqli);
+        flash('msg_hapus_non_buku', 'Data Berhasil Dihapus');
+    }
 }

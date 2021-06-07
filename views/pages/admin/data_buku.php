@@ -106,6 +106,44 @@ include 'app/controller/admin/post.php';
             </div>
         </div>
         <!-- batas -->
+
+        <!-- batas -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-md-flex align-items-center">
+                            <div>
+                                <h4 class="card-title">Perpustakaan</h4>
+                                <h5 class="card-subtitle">History Buku</h5>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <!-- column -->
+                            <div class="col-lg-12">
+                                <table class="table" id="datatable2">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Kode Buku</th>
+                                            <th>Judul Buku</th>
+                                            <th>Klasifikasi</th>
+                                            <th>Jumlah</th>
+                                            <th>Waktu Input</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php tampil_history_buku($mysqli); ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- batas -->
     </div>
 
     <!-- Modal -->
@@ -208,7 +246,7 @@ include 'app/controller/admin/post.php';
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="cetak_buku" method="post">
+                <form action="cetak_buku" method="post" target="_BLANK">
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="">Pilih Kategori</label>
