@@ -1,8 +1,8 @@
 <?php
 
-function simpan_guru($nuptk, $nm_lengkap, $no_hp, $jk, $tempat_lahir, $tanggal_lahir, $jabatan, $tahun, $media, $encrypt_pass, $mysqli)
+function simpan_guru($nuptk, $nm_lengkap, $no_hp, $jk, $tempat_lahir, $tanggal_lahir, $jabatan, $tahun, $media, $encrypt_pass, $username, $mysqli)
 {
-    $query = $mysqli->prepare("INSERT INTO guru values ('$nuptk','$nm_lengkap','$no_hp','$tempat_lahir','$tanggal_lahir','$jk','$jabatan','$tahun','$media','$encrypt_pass')");
+    $query = $mysqli->prepare("INSERT INTO guru values ('$nuptk','$nm_lengkap','$no_hp','$tempat_lahir','$tanggal_lahir','$jk','$jabatan','$tahun','$media','$encrypt_pass','$username')");
     $query->execute();
 }
 

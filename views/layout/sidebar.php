@@ -12,13 +12,18 @@
                         <li class="sidebar-item"><a href="data_anggota" class="sidebar-link"><i class="fas fa-users"></i><span class="hide-menu"> Data Anggota </span></a></li>
                         <li class="sidebar-item"><a href="data_guru" class="sidebar-link"><i class="fas fa-user"></i><span class="hide-menu"> Data Guru </span></a></li>
                         <li class="sidebar-item"><a href="data_buku" class="sidebar-link"><i class="fas fa-book"></i><span class="hide-menu"> Data Buku </span></a></li>
+                        <li class="sidebar-item"><a href="data_non_buku" class="sidebar-link"><i class="fas fa-box"></i><span class="hide-menu"> Data Non Buku </span></a></li>
                     </ul>
                 </li>
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="peminjaman" aria-expanded="false"><i class="fas fa-address-book"></i><span class="hide-menu">Peminjaman</span></a></li>
-                <?php else : ?>
+                <?php elseif (isset($_GET['views_user'])) : ?>
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="beranda" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Beranda</span></a></li>
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="daftar_buku" aria-expanded="false"><i class="mdi mdi-book"></i><span class="hide-menu">Daftar Buku</span></a></li>
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="daftar_peminjaman" aria-expanded="false"><i class="mdi mdi-book-open"></i><span class="hide-menu">Daftar Peminjaman</span></a></li>
+                <?php elseif (isset($_GET['views_guru'])) : ?>
+                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="beranda_guru" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Beranda</span></a></li>
+                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="daftar_buku_guru" aria-expanded="false"><i class="mdi mdi-book"></i><span class="hide-menu">Daftar Buku</span></a></li>
+                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="daftar_peminjaman_guru" aria-expanded="false"><i class="mdi mdi-book-open"></i><span class="hide-menu">Daftar Peminjaman</span></a></li>
                 <?php endif; ?>
             </ul>
         </nav>

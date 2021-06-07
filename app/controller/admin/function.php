@@ -315,9 +315,9 @@ function  tampil_data_anggota($mysqli)
     }
 }
 
-function simpan_anggota($nisn, $nm_lengkap, $no_hp, $jk, $tempat_lahir, $tanggal_lahir, $kelas, $tahun, $media, $encrypt_pass, $mysqli)
+function simpan_anggota($nisn, $nm_lengkap, $no_hp, $jk, $tempat_lahir, $tanggal_lahir, $kelas, $tahun, $media, $encrypt_pass, $username, $mysqli)
 {
-    $query = $mysqli->prepare("INSERT INTO anggota values ('$nisn','$nm_lengkap','$no_hp','$tempat_lahir','$tanggal_lahir','$jk','$kelas','$tahun','$media','$encrypt_pass')");
+    $query = $mysqli->prepare("INSERT INTO anggota values ('$nisn','$nm_lengkap','$no_hp','$tempat_lahir','$tanggal_lahir','$jk','$kelas','$tahun','$media','$encrypt_pass','$username')");
     $query->execute();
 }
 
@@ -417,14 +417,14 @@ function tampil_data_buku($mysqli)
                                         <select name="kategori" class="form-control">
                                             <option value="" hidden>-Pilih Kategori-</option>
                                             <?php if ($row->kategori_buku == 1) : ?>
-                                            <option value="1" selected>Umum</option>
-                                            <option value="0">Paket</option>
+                                                <option value="1" selected>Umum</option>
+                                                <option value="0">Paket</option>
                                             <?php elseif ($row->kategori_buku == 0) : ?>
-                                            <option value="1">Umum</option>
-                                            <option value="0" selected>Paket</option>
+                                                <option value="1">Umum</option>
+                                                <option value="0" selected>Paket</option>
                                             <?php else : ?>
-                                            <option value="1">Umum</option>
-                                            <option value="0">Paket</option>
+                                                <option value="1">Umum</option>
+                                                <option value="0">Paket</option>
                                             <?php endif; ?>
                                         </select>
                                     </div>
@@ -535,6 +535,10 @@ function simpan_buku($kode_isbn, $judul_buku, $kategori, $klasifikasi, $jumlah_b
     $query = $mysqli->prepare("INSERT INTO buku (kode_isbn, no_buku, judul_buku, pengarang, penerbit, tahun_terbit, tempat_terbit, kategori_buku, kode_klasifikasi, jilid_edisi, jumlah_buku, sumber_dana, harga_satuan, tanggal_input) 
                                             VALUES ('$kode_isbn', '$no_buku', '$judul_buku', '$pengarang', '$penerbit', '$tahun_terbit', '$tempat_terbit', '$kategori', '$klasifikasi', '$jilid_edisi', '$jumlah_buku', '$sumber_dana', '$harga_satuan', '$tanggal_input')");
     $query->execute();
+    $last_id_buku = $query->insert_id;
+
+    $query2 = $mysqli->prepare("INSERT INTO history_buku (id_buku, jumlah) VALUES ('$last_id_buku', '$jumlah_buku')");
+    $query2->execute();
 }
 function hapus_buku($id_buku, $mysqli)
 {
@@ -639,12 +643,123 @@ function tampil_data_pinjam($mysqli)
                 <?php endif ?>
             </td>
         </tr>
+    <?php
+    }
+}
+
+function tampil_history_buku($mysqli)
+{
+    $nomor = 1;
+    $query = $mysqli->prepare("SELECT * FROM history_buku JOIN buku ON history_buku.id_buku = buku.id_buku JOIN klasifikasi ON buku.kode_klasifikasi = klasifikasi.kode_klasifikasi");
+    $query->execute();
+    $result = $query->get_result();
+    while ($row = $result->fetch_object()) {
+        $id = $row->id_buku;
+        $tkn = 'hectast2k21';
+        $token = md5("$tkn:$id");
+    ?>
+        <tr>
+            <td><?= $nomor++; ?></td>
+            <td><?= $row->no_buku; ?></td>
+            <td><?= $row->judul_buku; ?></td>
+            <td><?= $row->kode_klasifikasi; ?> - <?= $row->klasifikasi; ?></td>
+            <td><?= $row->jumlah; ?></td>
+            <td><?= date("d/m/Y H:i:s", strtotime($row->waktu_input)); ?></td>
+        </tr>
+    <?php
+    }
+}
+
+function edit_jumlah_buku($id_buku, $jumlah_buku, $total_buku_sekarang, $mysqli)
+{
+    $query = $mysqli->prepare("UPDATE buku SET jumlah_buku='$total_buku_sekarang' WHERE id_buku='$id_buku'");
+    $query->execute();
+
+    $query2 = $mysqli->prepare("INSERT INTO history_buku (id_buku, jumlah) VALUES ('$id_buku', '$jumlah_buku')");
+    $query2->execute();
+}
+
+// Non Buku
+function tampil_non_buku($mysqli)
+{
+    $nomor = 1;
+    $query = $mysqli->prepare("SELECT * FROM non_buku");
+    $query->execute();
+    $result = $query->get_result();
+    while ($row = $result->fetch_object()) {
+        $id = $row->id;
+        $tkn = 'hectast2k21';
+        $token = md5("$tkn:$id");
+
+    ?>
+        <tr align="center">
+            <td><?= $nomor++; ?></td>
+            <td><?= $row->nama; ?></td>
+            <td><?= date("d/m/Y", strtotime($row->tanggal_masuk)); ?></td>
+            <td><?= $row->jumlah; ?></td>
+            <td>
+                <form action="" method="post">
+                    <input type="hidden" name="token_hapus" value="<?= $token ?>">
+                    <input type="hidden" name="id" value="<?= $id; ?>">
+                    <button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#exampleModal<?= $id; ?>"><i class="fas fa-edit"></i></button>
+                    <button type="submit" onclick="return confirm('Anda Yakin Ingin Menghapus Data Ini?')" name="hapus_non_buku" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                </form>
+            </td>
+        </tr>
+        <!-- modal -->
+        <div class="modal fade" id="exampleModal<?= $id ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Non Buku</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" method="post">
+                            <input type="hidden" name="token_edit" value="<?= $token; ?>">
+                            <input type="hidden" name="id" value="<?= $id; ?>">
+                            <div class="form-group">
+                                <label for="">Nama</label>
+                                <input class="form-control" type="text" name="nama" value="<?= $row->nama; ?>">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Tanggal Masuk</label>
+                                <input class="form-control" type="date" name="tanggal_masuk" value="<?= $row->tanggal_masuk; ?>">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Jumlah</label>
+                                <input class="form-control" type="number" name="jumlah" value="<?= $row->jumlah; ?>">
+                            </div>
+                            <div class="form-group">
+                                <button name="edit_non_buku" class="btn btn-block btn-primary"><i class="fas fa-save"></i> Simpan Perubahan </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- modal -->
 <?php
     }
 }
-function edit_jumlah_buku($id_buku, $total_buku_sekarang, $mysqli)
+
+function simpan_non_buku($nama, $jumlah, $tanggal_masuk, $mysqli)
 {
-    $query = $mysqli->prepare("UPDATE buku SET jumlah_buku='$total_buku_sekarang' WHERE id_buku='$id_buku'");
+    $query = $mysqli->prepare("INSERT INTO non_buku (nama, jumlah, tanggal_masuk) VALUES('$nama', '$jumlah', '$tanggal_masuk')");
+    $query->execute();
+}
+
+function edit_non_buku($id, $nama, $jumlah, $tanggal_masuk, $mysqli)
+{
+    $query = $mysqli->prepare("UPDATE non_buku SET nama='$nama', jumlah='$jumlah', tanggal_masuk='$tanggal_masuk' WHERE id='$id'");
+    $query->execute();
+}
+
+function hapus_non_buku($id, $mysqli)
+{
+    $query = $mysqli->prepare("DELETE FROM non_buku WHERE id='$id'");
     $query->execute();
 }
 ?>

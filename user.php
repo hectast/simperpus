@@ -13,11 +13,19 @@ if (!isset($_SESSION['unique_user'])) {
     return false;
 }
 
-if (isset($_SESSION['unique_user']) && $_SESSION['type_user'] != "anggota") {
+if (isset($_SESSION['unique_user']) && $_SESSION['type_user'] == "admin") {
 ?>
     <script>
         alert('Anda tidak mempunyai akses ke halaman ini!');
         window.location.href = 'beranda_admin';
+    </script>
+<?php
+    return false;
+} else if (isset($_SESSION['unique_user']) && $_SESSION['type_user'] == "guru") {
+?>
+    <script>
+        alert('Anda tidak mempunyai akses ke halaman ini!');
+        window.location.href = 'beranda_guru';
     </script>
 <?php
     return false;

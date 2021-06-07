@@ -13,13 +13,14 @@ if (isset($_POST['simpan_guru'])) {
     $tahun = $_POST['tahun_masuk'];
     $no_hp = $_POST['no_hp'];
     $pass = $nuptk;
+    $username = $nuptk;
     $encrypt_pass = password_hash($pass, PASSWORD_DEFAULT);
     $media = upload_gambar();
     if (!$media) {
         return false;
     }
 
-    simpan_guru($nuptk, $nm_lengkap, $no_hp, $jk, $tempat_lahir, $tanggal_lahir, $jabatan, $tahun, $media, $encrypt_pass, $mysqli);
+    simpan_guru($nuptk, $nm_lengkap, $no_hp, $jk, $tempat_lahir, $tanggal_lahir, $jabatan, $tahun, $media, $encrypt_pass, $username, $mysqli);
     flash('msg_simpan_guru', 'Data Guru Berhasil Disimpan');
 }
 

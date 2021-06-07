@@ -38,3 +38,45 @@
                 echo $no_buku;
             }
         }
+?>
+
+<html>
+    <head>
+        <title>test</title>
+        <style>
+            .flex-between {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .ttd {
+                text-align: center;
+                width: 50%;
+            }
+
+            .head {
+                margin-bottom: 6rem;
+            }
+
+            .nama {
+                text-decoration: underline;
+                font-weight: bold;
+                margin-bottom: 0.5rem;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="flex-between">
+            <div class="ttd">
+                <p class="head"><b>Kepala Perpus SMP Negeri 1 Suwawa</b></p>
+                <p class="nama">Wiwin S. Maksud, S.Pd</p>
+                <span class="nip">NIP. 198001022007012027</span>
+            </div>
+            <div class="ttd">
+                <p class="head"><b>Kepala SMP Negeri 1 Suwawa</b></p>
+                <p class="nama">Pitria Deu, S.Pd, M.Si</p>
+                <span class="nip">NIP. 197310261999032008</span>
+            </div>
+        </div>
+    </body>
+</html>

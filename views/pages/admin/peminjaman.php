@@ -57,7 +57,10 @@ table{
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                                     <i class="fas fa-plus-circle"></i> Tambah Peminjaman
                                 </button>
-                                <a href="cetak_transaksi" class="btn btn-success" target="_blank"><i class="fas fa-print"></i> Cetak</a>
+                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal">
+                                    <i class="fas fa-print"></i> Cetak
+                                </button>
+                                <!-- <a href="cetak_transaksi" class="btn btn-success" target="_blank"><i class="fas fa-print"></i> Cetak</a> -->
                                 <br><br>
                                 <div class="table-responsive">
                                 <table class="table table-hover" id="datatable_r">
@@ -147,6 +150,37 @@ table{
                     </form>
                 </div>
 
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Cetak Data Buku</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="cetak_transaksi" method="post" target="_BLANK">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="">Filter Cetak</label>
+                            <select name="filter_data" class="form-control">
+                                <option value="" hidden>-Pilih Filter Cetak-</option>
+                                <option value="1">Cetak Peminjaman Buku</option>
+                                <option value="2">Cetak Pengembalian Buku</option>
+                                <option value="3">Cetak Keseluruhan</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                        <button type="submit" name="cetak_filter" class="btn btn-primary"><i class="fas fa-print"></i> Cetak</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

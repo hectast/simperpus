@@ -12,7 +12,7 @@ RewriteRule ^beranda_admin$ admin.php?views_admin=beranda_admin
 RewriteRule ^data_anggota$ admin.php?views_admin=data_anggota
 RewriteRule ^data_guru$ admin.php?views_admin=data_guru
 RewriteRule ^data_kelas$ admin.php?views_admin=data_kelas
-RewriteRule ^data_mapel$ admin.php?views_admin=data_mapel
+RewriteRule ^data_non_buku$ admin.php?views_admin=data_non_buku
 RewriteRule ^data_buku$ admin.php?views_admin=data_buku
 RewriteRule ^peminjaman$ admin.php?views_admin=peminjaman
 RewriteRule ^tambah_peminjaman$ admin.php?views_admin=tambah_peminjaman
@@ -25,6 +25,11 @@ RewriteRule ^cetak_transaksi$ admin.php?views_admin=cetak_transaksi
 RewriteRule ^beranda$ user.php?views_user=beranda
 RewriteRule ^daftar_buku$ user.php?views_user=daftar_buku
 RewriteRule ^daftar_peminjaman$ user.php?views_user=daftar_peminjaman
+
+#guru
+RewriteRule ^beranda_guru$ guru.php?views_guru=beranda_guru
+RewriteRule ^daftar_buku_guru$ guru.php?views_guru=daftar_buku_guru
+RewriteRule ^daftar_peminjaman_guru$ guru.php?views_guru=daftar_peminjaman_guru
 
 RewriteRule ^blank_page$ admin.php?views_admin=blank_page
 

@@ -2,8 +2,29 @@
 session_start();
 
 include 'app/env.php';
-if (isset($_SESSION['unique_user'])) {
-    header('Location: beranda');
+if (isset($_SESSION['unique_user']) && $_SESSION['type_user'] == "admin") {
+?>
+    <script>
+        alert('Anda tidak mempunyai akses ke halaman ini!');
+        window.location.href = 'beranda_admin';
+    </script>
+<?php
+    return false;
+} else if (isset($_SESSION['unique_user']) && $_SESSION['type_user'] == "anggota") {
+?>
+    <script>
+        alert('Anda tidak mempunyai akses ke halaman ini!');
+        window.location.href = 'beranda';
+    </script>
+<?php
+    return false;
+} else if (isset($_SESSION['unique_user']) && $_SESSION['type_user'] == "guru") {
+?>
+    <script>
+        alert('Anda tidak mempunyai akses ke halaman ini!');
+        window.location.href = 'beranda_guru';
+    </script>
+<?php
     return false;
 }
 include 'app/aksi_login.php'
@@ -23,23 +44,45 @@ include 'app/aksi_login.php'
     <title>Login - SIMPERPUS</title>
     <!-- Custom CSS -->
     <link href="public/dist/css/style.min.css" rel="stylesheet">
+
+    <style>
+        .back-img {
+            background-image: url('public/assets/images/library.jpg');
+            background-position: center;
+            background-size: cover;
+        }
+
+        .back-color {
+            background-color: rgba(52, 58, 64, 0.5) !important;
+        }
+
+        .bg-transparan {
+            background-color: rgba(52, 58, 64, 0.9) !important;
+            transition: .8s all ;
+        }
+
+        .bg-transparan:hover {
+            background-color: rgba(52, 58, 64, 1) !important;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="main-wrapper">
+    <div class="main-wrapper back-img">
         <div class="preloader">
             <div class="lds-ripple">
                 <div class="lds-pos"></div>
                 <div class="lds-pos"></div>
             </div>
         </div>
-        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center bg-dark">
-            <div class="auth-box bg-dark border-top border-secondary">
+        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center back-color">
+            <div class="auth-box bg-transparan border-secondary">
                 <div class="text-center">
-                    <img src="public/assets/images/tutwuri.png" alt="logo" class="img-fluid" width="25%">
+                    <img src="public/assets/images/reading.png" alt="logo" class="img-fluid" width="25%">
+                    <!-- <img src="public/assets/images/tutwuri.png" alt="logo" class="img-fluid" width="25%"> -->
                 </div>
                 <div id="loginform">
-                    <div class="text-center p-t-15 p-b-10">
+                    <div class="text-center p-t-10 p-b-10">
                         <span class="db">
                             <h2 class="text-light">
                                 <span class="text-success">S</span>
@@ -64,7 +107,7 @@ include 'app/aksi_login.php'
                                     <div class="input-group-prepend">
                                         <span class="input-group-text text-dark" id="basic-addon1"><i class="ti-user"></i></span>
                                     </div>
-                                    <input type="text" name="nisn" class="form-control form-control-lg" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" required="">
+                                    <input type="text" name="username" class="form-control form-control-lg" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" required="">
                                 </div>
                                 <div class="input-group mb-1">
                                     <div class="input-group-prepend">

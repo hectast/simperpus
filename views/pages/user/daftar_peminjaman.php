@@ -35,7 +35,7 @@
                                         </thead>
                                         <tbody>
                                             <?php
-                                                $stmt_daftar_peminjaman = $mysqli->prepare("SELECT * FROM transaksi JOIN buku ON transaksi.id_buku = buku.id_buku JOIN anggota ON transaksi.nisn = anggota.nisn WHERE transaksi.nisn='{$_SESSION['unique_user']}'");
+                                                $stmt_daftar_peminjaman = $mysqli->prepare("SELECT * FROM transaksi JOIN buku ON transaksi.id_buku = buku.id_buku JOIN anggota ON transaksi.nisn = anggota.nisn WHERE transaksi.nisn='{$_SESSION['unique2_user']}'");
                                                 $stmt_daftar_peminjaman->execute();
                                                 $result_daftar_peminjaman = $stmt_daftar_peminjaman->get_result();
                                                 $no = 1;
