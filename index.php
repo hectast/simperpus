@@ -94,7 +94,7 @@ include 'app/aksi_login.php'
                         <h4 class="text-light">SMP NEGERI 1 SUWAWA</h4>
                         <small>
                             <p class="text-light">
-                                Nomor Perpustakaan <u>7503031D1000002</u><br>
+                                Nomor Perpustakaan <u>7503031B1014356</u><br>
                                 Jl. Suwawa no. 56, desa tingkohubu, kec. Suwawa, Kab. Bone Bolango, Provinsi Gorontalo
                             </p>
                         </small>
