@@ -100,16 +100,16 @@ $html .= '
 </table><br>
 <div>Total Data : '.mysqli_num_rows($query).'<div>
 <div style="width: 100%;text-align: center;margin-top: 5rem;">
-    <div style="width: 50%;float: left;">
-        <p class="head"><b>Kepala Perpus SMP Negeri 1 Suwawa</b></p>
-        <p class="nama">Wiwin S. Maksud, S.Pd</p>
-        <span class="nip">NIP. 198001022007012027</span>
-    </div>
-    <div style="width: 50%;float: left;">
-        <p class="head"><b>Kepala SMP Negeri 1 Suwawa</b></p>
-        <p class="nama">Pitria Deu, S.Pd, M.Si</p>
-        <span class="nip">NIP. 197310261999032008</span>
-    </div>
+<div style="width: 50%;float: left;">
+<p class="head"><b>Kepala SMP Negeri 1 Suwawa</b></p>
+<p class="nama">Pitria Deu, S.Pd, M.Si</p>
+<span class="nip">NIP. 197310261999032008</span>
+</div>
+<div style="width: 50%;float: left;">
+<p class="head"><b>Pengelola Perpustakaan SMP Negeri 1 Suwawa</b></p>
+<p class="nama">Wiwin S. Maksud, S.Pd</p>
+<span class="nip">NIP. 198001022007012027</span>
+</div>
 </div>
 ';
 
