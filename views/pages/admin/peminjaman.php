@@ -39,6 +39,18 @@ table{
         <?php
             }
         ?>
+        <?php
+            if (isset($_SESSION['msg_hapus_transaksi'])) {
+        ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <span class="fas fa-check fe-16 mr-2"></span> <?= flash('msg_hapus_transaksi'); ?>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+        <?php
+            }
+        ?>
         <!-- batas -->
         <div class="row">
             <div class="col-md-12">

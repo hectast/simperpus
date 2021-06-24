@@ -639,7 +639,12 @@ function tampil_data_pinjam($mysqli)
                         <button name="kembali" type="submit" class="btn btn-sm btn-success"><i class="fas fa-exchange-alt"></i> Kembalikan</button>
                     </form>
                 <?php else : ?>
-                    <div>-</div>
+                    <div>
+                        <form action="" method="post">
+                            <input type="hidden" name="id_transaksi" value="<?= $row->id_transaksi ?>">
+                            <button onclick="return confirm('Anda Yakin?')" name="hapus_transaksi" type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Hapus</button>
+                        </form>
+                    </div>
                 <?php endif ?>
             </td>
         </tr>

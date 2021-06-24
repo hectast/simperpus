@@ -299,3 +299,9 @@ if (isset($_POST['hapus_non_buku'])) {
         flash('msg_hapus_non_buku', 'Data Berhasil Dihapus');
     }
 }
+
+if(isset($_POST['hapus_transaksi'])){
+    $id_transaksi = $_POST['id_transaksi'];
+    $query = $mysqli->query("DELETE FROM transaksi WHERE id_transaksi = '$id_transaksi'");
+    flash('msg_hapus_transaksi','Data Berhasil Dihapus');
+}
